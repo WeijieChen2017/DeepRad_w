@@ -1,5 +1,8 @@
-import model
-import numpy as np
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
-a = np.array([1, 2, 3, 4, 5])
-print(model.test_find_largest(a))
+from model.ro1 import ro1
+from model.ro2 import ro2
+
+ro1()
+ro2()
