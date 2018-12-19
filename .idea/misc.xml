@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6 (DeepRad_w)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6 (PVC)" project-jdk-type="Python SDK" />
+>>>>>>> a5b20a996dec041728d2448754fd9ce13c4d5598
 </project>

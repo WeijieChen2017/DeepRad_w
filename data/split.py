@@ -8,7 +8,7 @@ import numpy as np
 from config.UDF import output_dataset
 
 
-def data_split():
+def data_split(model_type):
     # load dataset [1780, 192, 192, 1]
     datapath = ".//dataset//npy//"
     list_number = np.asarray(range(20))
