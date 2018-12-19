@@ -40,7 +40,9 @@ def main(argv):
     print("n_EPOCH: ", n_epoch)
     print("MODEL_ID: ", model_id+time_stamp)
     print("------------------------------------------------------------------")
-
+    print("Build a U-Net:")
+    model, opt, loss = config(model_id, n_epoch=n_epoch)
+    model.summary()
 
 if __name__ == "__main__":
     main(sys.argv)
