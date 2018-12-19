@@ -5,7 +5,8 @@
 import sys
 import getopt
 import datetime
-from config.main_config import config
+from config.main_config import set_configuration
+from data.load_data import set_dataset
 
 
 def usage():
@@ -41,8 +42,12 @@ def main(argv):
     print("MODEL_ID: ", model_id+time_stamp)
     print("------------------------------------------------------------------")
     print("Build a U-Net:")
-    model, opt, loss = config(model_id, n_epoch=n_epoch)
+    model, opt, loss, callbacks_list, conf = set_configuration(MODEL_ID=model_id,
+                                                               n_epoch=n_epoch,
+                                                               flag_aug=False)
+    data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     model.summary()
+
 
 if __name__ == "__main__":
     main(sys.argv)

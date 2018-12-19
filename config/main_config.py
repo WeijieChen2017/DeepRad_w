@@ -8,9 +8,10 @@ from keras.optimizers import rmsprop, Adam
 
 from model.unet import unet
 from config.UDF import mean_squared_error_1e6
+from config.callbacks import set_checkpoint
 
 
-def config(MODEL_ID, n_epoch=500, ):
+def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
 
     # return model, opt, loss
     model = None
@@ -21,6 +22,7 @@ def config(MODEL_ID, n_epoch=500, ):
     log_path = '.\\logs\\' + MODEL_ID + "\\"
     if not os.path.exists(log_path):
         os.makedirs(log_path)
+
 
     # set traininig configurations
     conf = {"image_shape": (512, 512, 4),
@@ -42,17 +44,19 @@ def config(MODEL_ID, n_epoch=500, ):
             "beta_1": 0.9,
             "beta_2": 0.999,
             "epochs": n_epoch,
-            "loss": loss,
+            "loss": 'mse1e6',
             "metric": "mse",
-            "optimizer": Adam}
+            "optimizer": 'Adam',
+            "batch_size": 10}
     np.save(log_path + 'info.npy', conf)
 
-    # set augmentation configurations
-    conf_a = {"rotation_range": 15, "shear_range": 10,
-              "width_shift_range": 0.33, "height_shift_range": 0.33, "zoom_range": 0.33,
-              "horizontal_flip": True, "vertical_flip": True, "fill_mode": 'nearest',
-              "seed": 314, "batch_size": conf["batch_size"]}
-    np.save(log_path + 'aug.npy', conf_a)
+    if flag_aug == True:
+        # set augmentation configurations
+        conf_a = {"rotation_range": 15, "shear_range": 10,
+                  "width_shift_range": 0.33, "height_shift_range": 0.33, "zoom_range": 0.33,
+                  "horizontal_flip": True, "vertical_flip": True, "fill_mode": 'nearest',
+                  "seed": 314, "batch_size": conf["batch_size"]}
+        np.save(log_path + 'aug.npy', conf_a)
 
     # build up the model
     model = unet(img_shape=conf["image_shape"],
@@ -74,4 +78,7 @@ def config(MODEL_ID, n_epoch=500, ):
     if conf["loss"] == 'mse1e6':
         loss = mean_squared_error_1e6
 
-    return model, opt, loss
+    # callback
+    callbacks_list = set_checkpoint(log_path=log_path, MODEL_ID=MODEL_ID, batch_size=conf["batch_size"])
+
+    return model, opt, loss, callbacks_list, conf
