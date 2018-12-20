@@ -32,6 +32,9 @@ def main(argv):
         else:
             print("Error: invalid parameters")
 
+    dir_mri = './/files//'+dir_mri+'_mri.nii.gz'
+    dir_pet = './/files//'+dir_pet+'_pet.nii.gz'
+
     # print('Number of arguments:', len(argv), 'arguments.')
     # print('Argument List:', str(argv))
     time_stamp = datetime.datetime.now().strftime("-%Y-%m-%d-%H-%M")
