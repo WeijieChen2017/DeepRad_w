@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 
+import gc
 import sys
 import getopt
 import datetime
@@ -50,6 +51,11 @@ def main(argv):
                                                                flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     model.summary()
+
+    del model
+    del data_mri
+    del data_pet
+    gc.collect()
 
 
 if __name__ == "__main__":
