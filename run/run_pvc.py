@@ -32,5 +32,5 @@ def w_train(model, X, Y, n_epoch):
             a.set_title('\^Y')
             fig.tight_layout()
             fig.canvas.draw()
-            fig.savefig('progress_dip_{0:05d}.jpg'.format(it))
+            fig.savefig('progress_dip_{0:05d}.jpg'.format(idx_epoch))
             fig.canvas.flush_events()
