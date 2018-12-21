@@ -6,6 +6,7 @@ import gc
 import sys
 import getopt
 import datetime
+import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset
 from data.set_X_Y import data_pre_PVC
@@ -20,6 +21,7 @@ IMG_COLS = 256
 IDX_SLICE = 142
 FA_NORM = 35000.0
 
+np.random.seed(591)
 
 def usage():
     print("Error in input argv")
@@ -64,7 +66,7 @@ def main(argv):
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     model.summary()
 
-    curr_loss = w_train(model, X, Y)
+    w_train(model, X, Y, n_epoch)
 
     del model
     del data_mri
