@@ -40,7 +40,7 @@ def main(argv):
         elif opt in ['-p', '--pet']:
             dir_pet = arg
         elif opt in ['-e', '--epoch']:
-            n_epoch = arg
+            n_epoch = int(arg)
         elif opt in ['-i', '--id']:
             model_id = arg
         else:
@@ -65,6 +65,8 @@ def main(argv):
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     model.summary()
+
+    model.compile(opt, loss)
 
     w_train(model, X, Y, n_epoch)
 
