@@ -10,10 +10,9 @@ from model.unet import unet
 from config.UDF import mean_squared_error_1e6
 from config.callbacks import set_checkpoint
 
+global IMG_ROWS, IMG_COLS
 
 def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
-
-    global IMG_ROWS, IMG_COLS
 
     # return model, opt, loss
     model = None
