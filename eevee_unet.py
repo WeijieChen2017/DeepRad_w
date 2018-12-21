@@ -8,6 +8,17 @@ import getopt
 import datetime
 from config.main_config import set_configuration
 from data.load_data import set_dataset
+from data.set_X_Y import data_pre_PVC
+from run.run_pvc import w_train
+
+
+global IMG_ROWS, IMG_COLS
+global IDX_SLICE, FA_NORM
+
+IMG_ROWS = 256
+IMG_COLS = 256
+IDX_SLICE = 142
+FA_NORM = 35000.0
 
 
 def usage():
@@ -50,7 +61,10 @@ def main(argv):
                                                                n_epoch=n_epoch,
                                                                flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
+    X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     model.summary()
+
+    curr_loss = w_train(model, X, Y)
 
     del model
     del data_mri

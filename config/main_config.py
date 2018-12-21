@@ -13,6 +13,8 @@ from config.callbacks import set_checkpoint
 
 def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
 
+    global IMG_ROWS, IMG_COLS
+
     # return model, opt, loss
     model = None
     opt = None
@@ -25,7 +27,7 @@ def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
 
 
     # set traininig configurations
-    conf = {"image_shape": (512, 512, 4),
+    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 4),
             "out_channel": 1,
             "filter": 16,
             "depth": 4,
