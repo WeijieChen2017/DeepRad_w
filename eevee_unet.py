@@ -48,8 +48,6 @@ def main(argv):
         else:
             print("Error: invalid parameters")
 
-    global MRI_TH
-
     dir_mri = './/files//'+dir_mri+'_mri.nii.gz'
     dir_pet = './/files//'+dir_pet+'_pet.nii.gz'
 
