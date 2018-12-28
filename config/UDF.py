@@ -37,6 +37,8 @@ def Gray_White_CSF(y_true, y_pred):
     MRI_TH = float(GL_get_value("MRI_TH"))
     W_PGWC = (GL_get_value("W_PGWC"))
 
+    print(MRI_TH)
+    print(type(MRI_TH))
     # [PET, Gray, White, CSF]
     weight = [int(W_PGWC[0]),
               int(W_PGWC[1]),
