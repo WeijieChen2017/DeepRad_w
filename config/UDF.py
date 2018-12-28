@@ -75,11 +75,12 @@ def Gray_White_CSF(y_true, y_pred):
 
     wm_mask = y_true[:, :, :, 3]
     wm_mask = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < MRI_TH)
-    print(wm_mask)
-    print("----------------------------------------------------------")
-    print(y_true[:, :, :, 0] < MRI_TH)
-    print("----------------------------------------------------------")
-    print(wm_mask == 1)
+    wm_mask = K.cast(wm_mask, np.int64)
+    # print(wm_mask)
+    # print("----------------------------------------------------------")
+    # print(y_true[:, :, :, 0] < MRI_TH)
+    # print("----------------------------------------------------------")
+    # print(wm_mask == 1)
     wm_true = wm_mask * y_true[:, :, :, 0]
     wm_pred = wm_mask * y_pred[:, :, :, 0]
     # wm_sum = K.sum( wm_pred, axis=-1 )
