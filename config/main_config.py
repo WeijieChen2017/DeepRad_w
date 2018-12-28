@@ -8,6 +8,7 @@ from keras.optimizers import rmsprop, Adam
 
 from model.unet import unet
 from config.UDF import mean_squared_error_1e6
+from config.UDF import Gray_White_CSF
 from config.callbacks import set_checkpoint
 
 global IMG_ROWS, IMG_COLS
@@ -83,6 +84,8 @@ def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
                    epsilon=conf["epsilon"], beta_1=conf["beta_1"], beta_2=conf["beta_2"])
     if conf["loss"] == 'mse1e6':
         loss = mean_squared_error_1e6
+    if conf["loss"] == 'Gray_White_CSF':
+        loss = Gray_White_CSF
 
     # callback
     callbacks_list = set_checkpoint(log_path=log_path, MODEL_ID=MODEL_ID, batch_size=conf["batch_size"])

@@ -59,7 +59,7 @@ def main(argv):
     print("MODEL_ID: ", model_id+time_stamp)
     print("------------------------------------------------------------------")
     print("Build a U-Net:")
-    model, opt, loss, callbacks_list, conf = set_configuration(MODEL_ID=model_id,
+    model, opt, loss, callbacks_list, conf = set_configuration(MODEL_ID=model_id+time_stamp,
                                                                n_epoch=n_epoch,
                                                                flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
@@ -68,7 +68,7 @@ def main(argv):
 
     model.compile(opt, loss)
 
-    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch, MODEL_ID=model_id)
+    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch, MODEL_ID=model_id+time_stamp)
 
     del model
     del data_mri
