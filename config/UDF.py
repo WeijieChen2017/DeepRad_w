@@ -5,8 +5,6 @@ import numpy as np
 import datetime
 from keras import backend as K
 
-global MRI_TH
-
 def mean_squared_error_1e12(y_true, y_pred):
     return K.mean(K.square(y_pred - y_true), axis=-1)*1e12
 
