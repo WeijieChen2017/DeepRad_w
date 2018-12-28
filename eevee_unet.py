@@ -31,7 +31,9 @@ def usage():
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'm:p:e:i:t:', ['mri=', 'pet=', 'epoch=', 'id=', 'th='])
+        opts, args = getopt.getopt(sys.argv[1:],
+                                   'm:p:e:i:t:w:',
+                                   ['mri=', 'pet=', 'epoch=', 'id=', 'th=', 'weight_PGWC='])
     except getopt.GetoptError:
         usage()
         sys.exit()
@@ -47,6 +49,8 @@ def main(argv):
             model_id = arg
         elif opt in ['-t', '--th']:
             MRI_TH = arg
+        elif opt in ['-w', '--weight_PGWC']:
+            W_PGWC = arg
         else:
             print("Error: invalid parameters")
 
@@ -66,6 +70,7 @@ def main(argv):
 
     GL_set_value("MODEL_ID", model_id+time_stamp)
     GL_set_value("MRI_TH", MRI_TH)
+    GL_set_value("W_PGWC", W_PGWC)
 
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)

@@ -35,9 +35,13 @@ def Gray_White_CSF(y_true, y_pred):
 
 
     MRI_TH = float(GL_get_value("MRI_TH"))
+    W_PGWC = (GL_get_value("W_PGWC"))
 
     # [PET, Gray, White, CSF]
-    weight = [1, 1, 1, 1]
+    weight = [int(W_PGWC[0]),
+              int(W_PGWC[1]),
+              int(W_PGWC[2]),
+              int(W_PGWC[3])]
 
     k1 = np.array([[-1, -1, -1],
                    [0, 0, 0],
@@ -70,7 +74,7 @@ def Gray_White_CSF(y_true, y_pred):
     gm_error = K.mean(K.square(gm_pred - gm_true), axis=-1)
 
     wm_mask = y_true[:, :, :, 3]
-    wm_maks = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < MRI_TH)
+    wm_mask = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < MRI_TH)
     wm_true = wm_mask * y_true[:, :, :, 0]
     wm_pred = wm_mask * y_pred[:, :, :, 0]
     # wm_sum = K.sum( wm_pred, axis=-1 )
