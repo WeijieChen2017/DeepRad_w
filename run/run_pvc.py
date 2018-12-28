@@ -2,14 +2,15 @@
 # -*- coding: UTF-8 -*-
 
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-fig = plt.figure(figsize=(15, 5))
-fig.show(False)
-
 
 def w_train(model, X, Y, n_epoch, MODEL_ID):
+
+    fig = plt.figure(figsize=(15, 5))
+    fig.show(False)
 
     save_path = '.\\mid_results\\' + MODEL_ID + "\\"
     if not os.path.exists(save_path):
