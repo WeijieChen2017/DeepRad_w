@@ -42,18 +42,18 @@ def Gray_White_CSF(y_true, y_pred):
               int(W_PGWC[2]),
               int(W_PGWC[3])]
 
-    k1 = np.array([[-1, -1, -1],
-                   [0, 0, 0],
-                   [1, 1, 1]], dtype=np.float32)
-    k2 = np.array([[-1, 0, 1],
-                   [-1, 0, 1],
-                   [-1, 0, 1]], dtype=np.float32)
-    k1 = K.reshape(k1, (3, 3, 1, 1))
-    k2 = K.reshape(k2, (3, 3, 1, 1))
-    pet_true = K.reshape(y_true[:, :, :, 0], (1, 512, 512, 1))
-    pet_pred = K.reshape(y_pred[:, :, :, 0], (1, 512, 512, 1))
-    norm1 = K.conv2d(pet_true, k1, strides=(1, 1), padding='same', dilation_rate=(1, 1))
-    norm2 = K.conv2d(pet_true, k2, strides=(1, 1), padding='same', dilation_rate=(1, 1))
+    # k1 = np.array([[-1, -1, -1],
+    #                [0, 0, 0],
+    #                [1, 1, 1]], dtype=np.float32)
+    # k2 = np.array([[-1, 0, 1],
+    #                [-1, 0, 1],
+    #                [-1, 0, 1]], dtype=np.float32)
+    # k1 = K.reshape(k1, (3, 3, 1, 1))
+    # k2 = K.reshape(k2, (3, 3, 1, 1))
+    # pet_true = K.reshape(y_true[:, :, :, 0], (1, 512, 512, 1))
+    # pet_pred = K.reshape(y_pred[:, :, :, 0], (1, 512, 512, 1))
+    # norm1 = K.conv2d(pet_true, k1, strides=(1, 1), padding='same', dilation_rate=(1, 1))
+    # norm2 = K.conv2d(pet_true, k2, strides=(1, 1), padding='same', dilation_rate=(1, 1))
     #     grads = K.sqrt(K.square(norm1) + K.square(norm2))
 
     pet_error = K.mean(K.square(y_pred[:, :, :, 0] - y_true[:, :, :, 0]), axis=-1)

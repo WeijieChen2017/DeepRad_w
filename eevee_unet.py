@@ -44,7 +44,7 @@ def main(argv):
         elif opt in ['-p', '--pet']:
             dir_pet = arg
         elif opt in ['-e', '--epoch']:
-            n_epoch = int(arg)
+            n_epoch = int(arg)+1
         elif opt in ['-i', '--id']:
             model_id = arg
         elif opt in ['-t', '--th']:
@@ -60,13 +60,13 @@ def main(argv):
     # print('Number of arguments:', len(argv), 'arguments.')
     # print('Argument List:', str(argv))
     time_stamp = datetime.datetime.now().strftime("-%Y-%m-%d-%H-%M")
-    print("------------------------------------------------------------------")
-    print("MRI_dir: ", dir_mri)
-    print("PET_dir: ", dir_pet)
-    print("n_EPOCH: ", n_epoch)
+    # print("------------------------------------------------------------------")
+    # print("MRI_dir: ", dir_mri)
+    # print("PET_dir: ", dir_pet)
+    # print("n_EPOCH: ", n_epoch)
     print("MODEL_ID: ", model_id+time_stamp)
-    print("------------------------------------------------------------------")
-    print("Build a U-Net:")
+    # print("------------------------------------------------------------------")
+    # print("Build a U-Net:")
 
     GL_set_value("MODEL_ID", model_id+time_stamp)
     GL_set_value("MRI_TH", MRI_TH)
@@ -75,7 +75,7 @@ def main(argv):
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
-    model.summary()
+    # model.summary()
 
     model.compile(opt, loss)
 
