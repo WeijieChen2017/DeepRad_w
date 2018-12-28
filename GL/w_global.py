@@ -2,9 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 
-def __init__():
-    global GDICT
-    GDICT = {}
+global GDICT
+GDICT = {}
 
 
 def GL_set_value(key, value):
