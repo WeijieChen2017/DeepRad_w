@@ -51,7 +51,7 @@ def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
             "beta_1": 0.9,
             "beta_2": 0.999,
             "epochs": n_epoch,
-            "loss": 'mse1e6',
+            "loss": 'Gray_White_CSF',
             "metric": "mse",
             "optimizer": 'Adam',
             "batch_size": 10}
