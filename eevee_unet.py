@@ -29,7 +29,7 @@ def usage():
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'm:p:e:i:', ['mri=', 'pet=', 'epoch=', 'id='])
+        opts, args = getopt.getopt(sys.argv[1:], 'm:p:e:i:t:', ['mri=', 'pet=', 'epoch=', 'id=', 'th='])
     except getopt.GetoptError:
         usage()
         sys.exit()
@@ -43,8 +43,12 @@ def main(argv):
             n_epoch = int(arg)
         elif opt in ['-i', '--id']:
             model_id = arg
+        elif opt in ['-t', '--th']:
+            MRI_TH = arg
         else:
             print("Error: invalid parameters")
+
+    global MRI_TH
 
     dir_mri = './/files//'+dir_mri+'_mri.nii.gz'
     dir_pet = './/files//'+dir_pet+'_pet.nii.gz'
