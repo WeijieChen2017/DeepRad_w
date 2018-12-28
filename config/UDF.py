@@ -33,6 +33,9 @@ def mse1e12_weighted(y_true, y_pred):
 
 def Gray_White_CSF(y_true, y_pred):
 
+
+    MRI_TH = float(GL_get_value("MRI_TH"))
+
     # [PET, Gray, White, CSF]
     weight = [1, 1, 1, 1]
 
@@ -67,7 +70,7 @@ def Gray_White_CSF(y_true, y_pred):
     gm_error = K.mean(K.square(gm_pred - gm_true), axis=-1)
 
     wm_mask = y_true[:, :, :, 3]
-    wm_maks = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < GL_get_value("MRI_TH"))
+    wm_maks = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < MRI_TH)
     wm_true = wm_mask * y_true[:, :, :, 0]
     wm_pred = wm_mask * y_pred[:, :, :, 0]
     # wm_sum = K.sum( wm_pred, axis=-1 )
