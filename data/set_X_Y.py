@@ -25,6 +25,14 @@ def data_pre_PVC(data_mri, data_pet):
     X[0, :, :, 2] = data_mri[:, :, IDX_SLICE] == 2
     X[0, :, :, 3] = data_mri[:, :, IDX_SLICE] == 3
 
+    print(np.mean(X[:, :, :, 0]))
+    print(np.mean(X[:, :, :, 1]))
+    print(np.mean(X[:, :, :, 2]))
+    print(np.mean(X[:, :, :, 3]))
+    # Thresholding for white matter
+    X[0, :, :, 3] = np.multiply()
+
+
     Y = X
 
     return X, Y
