@@ -68,7 +68,7 @@ def main(argv):
 
     model.compile(opt, loss)
 
-    w_train(model, X, Y, n_epoch)
+    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch, MODEL_ID=model_id)
 
     del model
     del data_mri

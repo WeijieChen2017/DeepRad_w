@@ -9,7 +9,11 @@ fig = plt.figure(figsize=(15, 5))
 fig.show(False)
 
 
-def w_train(model, X, Y, n_epoch):
+def w_train(model, X, Y, n_epoch, MODEL_ID):
+
+    save_path = '.\\mid_results\\' + MODEL_ID + "\\"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
 
     for idx_epoch in range(n_epoch):
 
@@ -32,5 +36,5 @@ def w_train(model, X, Y, n_epoch):
             a.set_title('\^Y')
             fig.tight_layout()
             fig.canvas.draw()
-            fig.savefig('progress_dip_{0:05d}.jpg'.format(idx_epoch))
+            fig.savefig(save_path+'progress_dip_{0:05d}.jpg'.format(idx_epoch))
             fig.canvas.flush_events()
