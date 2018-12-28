@@ -15,7 +15,6 @@ from GL.w_global import GL_get_value
 
 def set_configuration(n_epoch=500, flag_aug=False):
 
-
     IMG_ROWS = GL_get_value("IMG_ROWS")
     IMG_COLS = GL_get_value("IMG_COLS")
     MODEL_ID = GL_get_value("MODEL_ID")

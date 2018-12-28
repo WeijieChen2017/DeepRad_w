@@ -34,7 +34,6 @@ def mse1e12_weighted(y_true, y_pred):
 def Gray_White_CSF(y_true, y_pred):
 
 
-    MRI_TH = float(GL_get_value("MRI_TH"))
     W_PGWC = (GL_get_value("W_PGWC"))
 
     # [PET, Gray, White, CSF]
