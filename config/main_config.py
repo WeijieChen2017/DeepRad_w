@@ -4,23 +4,22 @@
 
 import os
 import numpy as np
-from keras.optimizers import rmsprop, Adam
+from keras.optimizers import Adam
 
 from model.unet import unet
 from config.UDF import mean_squared_error_1e6
 from config.UDF import Gray_White_CSF
 from config.callbacks import set_checkpoint
+from GL.w_global import GL_get_value
 
-global IMG_ROWS, IMG_COLS
 
-def set_configuration(MODEL_ID, n_epoch=500, flag_aug=False):
+def set_configuration(n_epoch=500, flag_aug=False):
 
-    # global IMG_ROWS, IMG_COLS
 
-    IMG_ROWS = 512
-    IMG_COLS = 512
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    MODEL_ID = GL_get_value("MODEL_ID")
 
-    # return model, opt, loss
     model = None
     opt = None
     loss = None

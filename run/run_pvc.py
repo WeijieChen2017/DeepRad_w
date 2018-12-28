@@ -5,14 +5,15 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from GL.w_global import GL_get_value
 
 
-def w_train(model, X, Y, n_epoch, MODEL_ID):
+def w_train(model, X, Y, n_epoch):
 
     fig = plt.figure(figsize=(15, 5))
     fig.show(False)
 
-    save_path = '.\\mid_results\\' + MODEL_ID + "\\"
+    save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 

@@ -11,15 +11,17 @@ from config.main_config import set_configuration
 from data.load_data import set_dataset
 from data.set_X_Y import data_pre_PVC
 from run.run_pvc import w_train
+from GL.w_global import GL_set_value
+
 
 
 global IMG_ROWS, IMG_COLS
 global IDX_SLICE, FA_NORM
 
-IMG_ROWS = 256
-IMG_COLS = 256
-IDX_SLICE = 142
-FA_NORM = 35000.0
+GL_set_value("IMG_ROWS", 512)
+GL_set_value("IMG_COLS", 512)
+GL_set_value("IDX_SLICE", 142)
+GL_set_value("FA_NORM", 35000.0)
 
 np.random.seed(591)
 
@@ -61,16 +63,18 @@ def main(argv):
     print("MODEL_ID: ", model_id+time_stamp)
     print("------------------------------------------------------------------")
     print("Build a U-Net:")
-    model, opt, loss, callbacks_list, conf = set_configuration(MODEL_ID=model_id+time_stamp,
-                                                               n_epoch=n_epoch,
-                                                               flag_aug=False)
+
+    GL_set_value("MODEL_ID", model_id+time_stamp)
+    GL_set_value("MRI_TH", MRI_TH)
+
+    model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     model.summary()
 
     model.compile(opt, loss)
 
-    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch, MODEL_ID=model_id+time_stamp)
+    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
     del model
     del data_mri
