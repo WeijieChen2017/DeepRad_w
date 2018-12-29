@@ -20,7 +20,6 @@ def mean_absolute_error_1e6(y_true, y_pred):
 
 
 def psnr(y_true, y_pred):
-#     return -10.0*K.log(1.0/(K.mean(K.square(y_pred - y_true))))/K.log(10.0)
     mse = K.mean(K.square(y_pred - y_true))
     return (20 - 10 * K.log(mse)/K.log(10.0))*1e3
 
@@ -33,14 +32,13 @@ def mse1e12_weighted(y_true, y_pred):
 
 def Gray_White_CSF(y_true, y_pred):
 
-
-    W_PGWC = (GL_get_value("W_PGWC"))
+    w_pgwc = (GL_get_value("W_PGWC"))
 
     # [PET, Gray, White, CSF]
-    weight = [int(W_PGWC[0]),
-              int(W_PGWC[1]),
-              int(W_PGWC[2]),
-              int(W_PGWC[3])]
+    weight = [int(w_pgwc[0]),
+              int(w_pgwc[1]),
+              int(w_pgwc[2]),
+              int(w_pgwc[3])]
 
     # k1 = np.array([[-1, -1, -1],
     #                [0, 0, 0],

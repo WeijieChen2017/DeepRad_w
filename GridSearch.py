@@ -3,7 +3,7 @@
 
 import os
 
-static = 'python eevee_unet.py -m subj01 -p subj01 -e 2000'
+static = 'python Hydrogen.py -m subj01 -p subj01 -e 2000'
 for th_idx in range(10):
     th = th_idx/10
     for w0 in ['1', '5']:
@@ -14,4 +14,4 @@ for th_idx in range(10):
                     ID = 'w'+w+'_th'+"%02d"%th_idx
                     static_curr = static+' -t '+str(th)+' -w '+w+' -i '+ID
                     print(static_curr)
-                    os.system(static_curr)
+                    # os.system(static_curr)
