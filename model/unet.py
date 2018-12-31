@@ -3,8 +3,14 @@
 
 
 from keras.models import Input, Model
-from keras.layers import Conv2D, Concatenate, MaxPooling2D, Conv2DTranspose, Dense
+from keras.layers import Conv2D, Concatenate, MaxPooling2D, Conv2DTranspose
 from keras.layers import UpSampling2D, Dropout, BatchNormalization
+
+
+from keras import regularizers
+from keras.layers import Dense, Flatten
+from GL.w_global import GL_get_value
+
 
 '''
 U-Net: Convolutional Networks for Biomedical Image Segmentation
@@ -55,4 +61,22 @@ def unet(img_shape, out_ch=1, start_ch=64, depth=4, inc_rate=2., activation='rel
     i = Input(shape=img_shape)
     o = level_block(i, start_ch, depth, inc_rate, activation, dropout, batchnorm, maxpool, upconv, residual)
     o = Conv2D(out_ch, 1, activation='sigmoid')(o)
+
+    flag_reg = GL_get_value("flag_reg")
+    flag_wr = GL_get_value("flag_wr")
+    flag_yr = GL_get_value("flag_yr")
+    para_wr = GL_get_value("para_wr")
+    para_yr = GL_get_value("para_yr")
+    n_pixel = GL_get_value("IMG_ROWS") * GL_get_value("IMG_COLS")
+
+    if flag_reg:
+        if flag_wr == 'l2':
+            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l2(para_wr))(o)
+        if flag_wr == 'l1':
+            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l1(para_wr))(o)
+        if flag_yr == 'l2':
+            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', activity_regularizer=regularizers.l2(para_yr))(o)
+        if flag_yr == 'l1':
+            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', activity_regularizer=regularizers.l1(para_yr))(o)
+
     return Model(inputs=i, outputs=o)
