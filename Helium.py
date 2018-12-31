@@ -55,7 +55,7 @@ def main():
                         help='Flag of y regularizer(l2/l1)')
     parser.add_argument('--para_wr', metavar='', type=float, default=0.01,
                         help='Para of weight regularizer(0.01)')
-    parser.add_argument('--para_wr', metavar='', type=float, default=0.01,
+    parser.add_argument('--para_yr', metavar='', type=float, default=0.01,
                         help='Para of y regularizer(0.01)')
     args = parser.parse_args()
 
