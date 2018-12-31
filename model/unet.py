@@ -3,7 +3,7 @@
 
 
 from keras.models import Input, Model
-from keras.layers import Conv2D, Concatenate, MaxPooling2D, Conv2DTranspose
+from keras.layers import Conv2D, Concatenate, MaxPooling2D, Conv2DTranspose, Dense
 from keras.layers import UpSampling2D, Dropout, BatchNormalization
 
 '''

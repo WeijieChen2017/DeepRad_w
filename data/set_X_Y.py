@@ -28,6 +28,9 @@ def data_pre_PVC(data_mri, data_pet):
     X[0, :, :, 2] = data_mri[:, :, IDX_SLICE] == 2
     X[0, :, :, 3] = Z[0, :, :, 0]*Z[0, :, :, 1]
 
-    Y = X
+    if GL_get_value("flag_reg"):
+        Y = X.flatten()
+    else:
+        Y = X
 
     return X, Y
