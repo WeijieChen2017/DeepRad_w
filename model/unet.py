@@ -70,14 +70,13 @@ def unet(img_shape, out_ch=1, start_ch=64, depth=4, inc_rate=2., activation='rel
     n_pixel = GL_get_value("IMG_ROWS") * GL_get_value("IMG_COLS")
 
     if flag_reg:
-        o = Flatten()(o)
         if flag_wr == 'l2':
-            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l2(para_wr))(o)
+            o = Dense(n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l2(para_wr))(o)
         if flag_wr == 'l1':
-            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l1(para_wr))(o)
+            o = Dense(n_pixel, activation='sigmoid', kernel_regularizer=regularizers.l1(para_wr))(o)
         if flag_yr == 'l2':
-            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', activity_regularizer=regularizers.l2(para_yr))(o)
+            o = Dense(n_pixel, activation='sigmoid', activity_regularizer=regularizers.l2(para_yr))(o)
         if flag_yr == 'l1':
-            o = Dense(n_pixel, input_dim=n_pixel, activation='sigmoid', activity_regularizer=regularizers.l1(para_yr))(o)
+            o = Dense(n_pixel, activation='sigmoid', activity_regularizer=regularizers.l1(para_yr))(o)
 
     return Model(inputs=i, outputs=o)
