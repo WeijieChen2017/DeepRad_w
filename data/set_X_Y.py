@@ -33,4 +33,6 @@ def data_pre_PVC(data_mri, data_pet):
     else:
         Y = X
 
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
     return X, Y
