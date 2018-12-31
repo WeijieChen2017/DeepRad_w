@@ -86,7 +86,7 @@ def main():
 
     # model establishment
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
-    add_regularizer(model)
+    # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     model.summary()
