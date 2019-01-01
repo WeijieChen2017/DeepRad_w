@@ -11,4 +11,4 @@ for idx_yr in range(6):
         ID = ' --para_yr '+yr+'--para_wr '+wr+' --id yr'+str(idx_yr+1)+'_wr'+str(idx_wr+1)+'_l2'
         static_curr = static+ID
         print(static_curr)
-        # os.system(static_curr)
+        os.system(static_curr)
