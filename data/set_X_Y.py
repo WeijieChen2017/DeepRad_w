@@ -50,10 +50,10 @@ def data_pre_seg(data_mri, data_pet):
     Y = np.zeros((IMG_DEPT, IMG_ROWS, IMG_COLS, 3))
 
     for i in range(IMG_DEPT):
-        X[i, :, :, :] = np.reshape(data_pet[:, :, i], (IMG_ROWS, IMG_COLS, 1))
-        Y[0, :, :, 0] = np.reshape(data_mri[:, :, i] == 1, (IMG_ROWS, IMG_COLS, 1))
-        Y[0, :, :, 1] = np.reshape(data_mri[:, :, i] == 2, (IMG_ROWS, IMG_COLS, 1))
-        Y[0, :, :, 2] = np.reshape(data_mri[:, :, i] == 3, (IMG_ROWS, IMG_COLS, 1))
+        X[i, :, :, 0] = data_pet[:, :, i]
+        Y[i, :, :, 0] = data_mri[:, :, i]
+        Y[i, :, :, 1] = data_mri[:, :, i]
+        Y[i, :, :, 2] = data_mri[:, :, i]
 
     print("X shape:", X.shape)
     print("Y shape:", Y.shape)
