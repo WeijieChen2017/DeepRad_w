@@ -49,9 +49,9 @@ def main():
                         help='Flag of Dropout(True)')
     parser.add_argument('--flag_reg', metavar='', type=bool, default=False,
                         help='Flag of regularizer(False)')
-    parser.add_argument('--flag_wr', metavar='', type=str, default='l2',
+    parser.add_argument('--type_wr', metavar='', type=str, default='None',
                         help='Flag of weight regularizer(l2/l1)')
-    parser.add_argument('--flag_yr', metavar='', type=str, default='',
+    parser.add_argument('--type_yr', metavar='', type=str, default='l2',
                         help='Flag of y regularizer(l2/l1)')
     parser.add_argument('--para_wr', metavar='', type=float, default=0.01,
                         help='Para of weight regularizer(0.01)')
@@ -70,8 +70,8 @@ def main():
     GL_set_value("flag_BN", args.flag_BN)
     GL_set_value("flag_Dropout", args.flag_Dropout)
     GL_set_value("flag_reg", args.flag_reg)
-    GL_set_value("flag_wr", args.flag_wr)
-    GL_set_value("flag_yr", args.flag_yr)
+    GL_set_value("flag_wr", args.type_wr)
+    GL_set_value("flag_yr", args.type_yr)
     GL_set_value("para_wr", args.para_wr)
     GL_set_value("para_yr", args.para_yr)
 

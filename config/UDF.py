@@ -80,6 +80,9 @@ def Gray_White_CSF(y_true, y_pred):
     return pet_error * weight[0] + gm_error * weight[1] + wm_error * weight[2] + csf_error * weight[3]
 
 
+    def y_reg(weight_matrix):
+        return 0.01 * K.sum(K.abs(weight_matrix))
+
 def output_dataset(filename, list_train, list_val):
     file_name = filename + "dataset.txt"
     now = datetime.datetime.now()

@@ -3,7 +3,7 @@
 
 import os
 
-static = 'python Hydrogen.py -m subj01 -p subj01 -e 2000'
+static = 'python Hydrogen.py'
 for th_idx in range(10):
     th = th_idx/10
     for w0 in ['1', '5']:
