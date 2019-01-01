@@ -52,10 +52,10 @@ def data_pre_seg(data_mri, data_pet):
 
     data_pet = np.divide(data_pet, FA_NORM)
 
-    X[i, :, :, 0] = data_pet[:, :, IDX_SLICE]
-    Y[i, :, :, 0] = data_mri[:, :, IDX_SLICE] == 1
-    Y[i, :, :, 1] = data_mri[:, :, IDX_SLICE] == 2
-    Y[i, :, :, 2] = data_mri[:, :, IDX_SLICE] == 3
+    X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
+    Y[0, :, :, 0] = data_mri[:, :, IDX_SLICE] == 1
+    Y[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 2
+    Y[0, :, :, 2] = data_mri[:, :, IDX_SLICE] == 3
 
     print("X shape:", X.shape)
     print("Y shape:", Y.shape)
