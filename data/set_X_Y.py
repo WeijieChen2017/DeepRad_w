@@ -44,16 +44,18 @@ def data_pre_seg(data_mri, data_pet):
     IMG_ROWS = GL_get_value("IMG_ROWS")
     IMG_COLS = GL_get_value("IMG_COLS")
     IMG_DEPT = GL_get_value("IMG_DEPT")
+    IDX_SLICE = GL_get_value("IDX_SLICE")
     FA_NORM = GL_get_value("FA_NORM")
 
-    X = np.zeros((IMG_DEPT, IMG_ROWS, IMG_COLS, 1))
-    Y = np.zeros((IMG_DEPT, IMG_ROWS, IMG_COLS, 3))
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 1))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
 
-    for i in range(IMG_DEPT):
-        X[i, :, :, 0] = data_pet[:, :, i]
-        Y[i, :, :, 0] = data_mri[:, :, i]
-        Y[i, :, :, 1] = data_mri[:, :, i]
-        Y[i, :, :, 2] = data_mri[:, :, i]
+    data_pet = np.divide(data_pet, FA_NORM)
+
+    X[i, :, :, 0] = data_pet[:, :, IDX_SLICE]
+    Y[i, :, :, 0] = data_mri[:, :, IDX_SLICE] == 1
+    Y[i, :, :, 1] = data_mri[:, :, IDX_SLICE] == 2
+    Y[i, :, :, 2] = data_mri[:, :, IDX_SLICE] == 3
 
     print("X shape:", X.shape)
     print("Y shape:", Y.shape)
