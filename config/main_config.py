@@ -30,8 +30,8 @@ def set_configuration(n_epoch=500, flag_aug=False):
 
 
     # set traininig configurations
-    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 4),
-            "out_channel": 1,
+    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 1),
+            "out_channel": 3,
             "filter": 16,
             "depth": 4,
             "inc_rate": 2,

@@ -10,14 +10,14 @@ import argparse
 import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset
-from data.set_X_Y import data_pre_PVC
+from data.set_X_Y import data_pre_PVC, data_pre_seg
 from run.run_pvc import w_train
 from GL.w_global import GL_set_value
-from model.regularizers import add_regularizer
 
 
 GL_set_value("IMG_ROWS", 512)
 GL_set_value("IMG_COLS", 512)
+GL_set_value("IMG_DEPT", 284)
 GL_set_value("IDX_SLICE", 142)
 GL_set_value("FA_NORM", 35000.0)
 
@@ -51,7 +51,7 @@ def main():
                         help='Flag of regularizer(False)')
     parser.add_argument('--type_wr', metavar='', type=str, default='None',
                         help='Flag of weight regularizer(l2/l1)')
-    parser.add_argument('--type_yr', metavar='', type=str, default='l2',
+    parser.add_argument('--type_yr', metavar='', type=str, default='None',
                         help='Flag of y regularizer(l2/l1)')
     parser.add_argument('--para_wr', metavar='', type=float, default=0.01,
                         help='Para of weight regularizer(0.01)')
@@ -88,7 +88,8 @@ def main():
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
-    X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+    # X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+    X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
     model.summary()
     model.compile(opt, loss)
     w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)

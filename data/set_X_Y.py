@@ -38,3 +38,25 @@ def data_pre_PVC(data_mri, data_pet):
     print("X shape:", X.shape)
     print("Y shape:", Y.shape)
     return X, Y
+
+def data_pre_seg(data_mri, data_pet):
+
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    IMG_DEPT = GL_get_value("IMG_DEPT")
+    FA_NORM = GL_get_value("FA_NORM")
+
+    X = np.zeros((IMG_DEPT, IMG_ROWS, IMG_COLS, 1))
+    Y = np.zeros((IMG_DEPT, IMG_ROWS, IMG_COLS, 3))
+
+    for i in range(IMG_DEPT):
+        X[i, :, :, :] = data_pet[:, :, i]
+        Y[0, :, :, 0] = data_mri[:, :, i] == 1
+        Y[0, :, :, 1] = data_mri[:, :, i] == 2
+        Y[0, :, :, 2] = data_mri[:, :, i] == 3
+
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
+
+    return X, Y
+
