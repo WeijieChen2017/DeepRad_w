@@ -14,7 +14,7 @@ def w_train(model, X, Y, n_epoch):
     header = GL_get_value("header")
     affine = GL_get_value("affine")
 
-    fig = plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(10, 5))
     fig.show(False)
 
     save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
@@ -31,12 +31,12 @@ def w_train(model, X, Y, n_epoch):
             # plt.imshow(np.rot90(X[0, :, :, 0]), cmap='gray')
             # a.axis('off')
             # a.set_title('X')
-            # a = fig.add_subplot(1, 3, 2)
-            # plt.imshow(np.rot90(Y[0, :, :, 0]), cmap='gray')
-            # a.axis('off')
-            # a.set_title('Y')
+            a = fig.add_subplot(1, 2, 1)
+            plt.imshow(np.rot90(Y[0, :, :, 0]), cmap='gray')
+            a.axis('off')
+            a.set_title('Y')
             Y_ = model.predict(X)
-            # a = fig.add_subplot(1, 3, 3)
+            a = fig.add_subplot(1, 2, 2)
             plt.imshow(np.rot90(Y_[0, :, :, 0]), cmap='gray')
             a.axis('off')
             a.set_title('\^Y')
