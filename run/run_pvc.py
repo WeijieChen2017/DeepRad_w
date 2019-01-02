@@ -35,7 +35,7 @@ def w_train(model, X, Y, n_epoch):
             # plt.imshow(np.rot90(Y[0, :, :, 0]), cmap='gray')
             # a.axis('off')
             # a.set_title('Y')
-            # Y_ = model.predict(X)
+            Y_ = model.predict(X)
             # a = fig.add_subplot(1, 3, 3)
             plt.imshow(np.rot90(Y_[0, :, :, 0]), cmap='gray')
             a.axis('off')
