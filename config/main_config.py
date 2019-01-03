@@ -32,7 +32,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
     # set traininig configurations
     conf = {"image_shape": (IMG_ROWS, IMG_COLS, 4),
             "out_channel": 1,
-            "filter": 32,
+            "filter": 64,
             "depth": 4,
             "inc_rate": 2,
             "activation": 'relu',
