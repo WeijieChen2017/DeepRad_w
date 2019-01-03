@@ -59,6 +59,11 @@ def main():
                         help='Para of y regularizer(0.01)')
     parser.add_argument('--n_filter', metavar='', type=int, default=16,
                         help='The initial filter number')
+    parser.add_argument('--depth', metavar='', type=int, default=4,
+                        help='The depth of U-Net')
+    parser.add_argument('--gap_flash', metavar='', type=int, default=100,
+                        help='How many epochs between two flash shoot')
+
     args = parser.parse_args()
 
     dir_mri = './/files//'+args.mri+'_mri.nii.gz'
@@ -77,6 +82,8 @@ def main():
     GL_set_value("para_wr", args.para_wr)
     GL_set_value("para_yr", args.para_yr)
     GL_set_value("n_filter", args.n_filter)
+    GL_set_value("depth", args.depth)
+    GL_set_value("gap_flash", args.gap_flash)
 
 
     print("------------------------------------------------------------------")

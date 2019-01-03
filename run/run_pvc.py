@@ -25,7 +25,7 @@ def w_train(model, X, Y, n_epoch):
 
         curr_loss = model.train_on_batch(X, Y)
 
-        if idx_epoch % 100 == 0:
+        if idx_epoch % GL_get_value("gap_flash") == 0:
             fig.clf()
             # a = fig.add_subplot(1, 3, 1)
             # plt.imshow(np.rot90(X[0, :, :, 0]), cmap='gray')

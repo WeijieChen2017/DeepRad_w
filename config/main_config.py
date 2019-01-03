@@ -33,7 +33,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
     conf = {"image_shape": (IMG_ROWS, IMG_COLS, 4),
             "out_channel": 1,
             "filter": GL_get_value("n_filter"),
-            "depth": 4,
+            "depth": GL_get_value("depth"),
             "inc_rate": 2,
             "activation": 'relu',
             "dropout": GL_get_value("flag_Dropout"),
