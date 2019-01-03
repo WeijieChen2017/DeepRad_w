@@ -57,6 +57,8 @@ def main():
                         help='Para of weight regularizer(0.01)')
     parser.add_argument('--para_yr', metavar='', type=float, default=0.01,
                         help='Para of y regularizer(0.01)')
+    parser.add_argument('--n_filter', metavar='', type=int, default=16,
+                        help='The initial filter number')
     args = parser.parse_args()
 
     dir_mri = './/files//'+args.mri+'_mri.nii.gz'
@@ -74,6 +76,7 @@ def main():
     GL_set_value("flag_yr", args.type_yr)
     GL_set_value("para_wr", args.para_wr)
     GL_set_value("para_yr", args.para_yr)
+    GL_set_value("n_filter", args.n_filter)
 
 
     print("------------------------------------------------------------------")
