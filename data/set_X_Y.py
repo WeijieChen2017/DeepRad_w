@@ -18,7 +18,8 @@ def data_pre_PVC(data_mri, data_pet):
     Y = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
     Z = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
 
-    data_pet = np.divide(data_pet, FA_NORM)
+    # data_pet = np.divide(data_pet, FA_NORM)
+    data_pet = np.divide(data_pet, np.amax(X))
 
     Z[0, :, :, 0] = data_pet[:, :, IDX_SLICE] <= MRI_TH
     Z[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 3
