@@ -20,7 +20,6 @@ from eval.output import w_output
 GL_set_value("IMG_ROWS", 512)
 GL_set_value("IMG_COLS", 512)
 GL_set_value("IMG_DEPT", 284)
-GL_set_value("IDX_SLICE", 142)
 GL_set_value("FA_NORM", 35000.0)
 
 np.random.seed(591)
@@ -67,6 +66,8 @@ def main():
                         help='How many epochs between two flash shoot')
     parser.add_argument('--flag_whole', metavar='', type=bool, default=False,
                         help='Whether process the whole PET image')
+    parser.add_argument('--idx_slice', metavar='', type=int, default=142,
+                        help='The idx to be processed.')
 
     args = parser.parse_args()
 
@@ -89,6 +90,7 @@ def main():
     GL_set_value("depth", args.depth)
     GL_set_value("gap_flash", args.gap_flash)
     GL_set_value("flag_whole", args.flag_whole)
+    GL_set_value("IDX_SLICE", args.idx_slice)
 
 
     print("------------------------------------------------------------------")
@@ -118,20 +120,22 @@ def main():
         del data_pet
         gc.collect()
     else:
+        GL_set_value("MODEL_ID", args.id)
         nii = []
         GL_set_value("nii", nii)
-        for idx in range(data_mri.shape[2]):
-            model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
-            GL_set_value("IDX_SLICE", idx)
-            X, Y = data_pre_PVC(data_mri=GL_get_value("data_mri"), data_pet=GL_get_value("data_pet"))
-            # model.summary()
-            model.compile(opt, loss)
-            w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
+        # for idx in range(data_mri.shape[2]):
+        idx = args.idx_slice
+        model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
+        GL_set_value("IDX_SLICE", idx)
+        X, Y = data_pre_PVC(data_mri=GL_get_value("data_mri"), data_pet=GL_get_value("data_pet"))
+        # model.summary()
+        model.compile(opt, loss)
+        w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
-            del model
-            gc.collect()
-            print('The slice has been completed. '+str(idx))
-        w_output()
+        del model
+        gc.collect()
+        print('The slice has been completed. '+str(idx))
+        # w_output()
 
 
 if __name__ == "__main__":

@@ -79,9 +79,10 @@ def w_pred(model, X, Y, n_epoch):
     fig.savefig(save_path + 'progress_dip_{0:03d}.jpg'.format(GL_get_value("IDX_SLICE")))
     fig.canvas.flush_events()
 
-    nii = GL_get_value("nii")
-    nii.append(Y_)
-    GL_set_value("nii", nii)
+    np.save(save_path + 'progress_dip_{0:03d}.nii'.format(GL_get_value("IDX_SLICE")), Y_)
+    # nii = GL_get_value("nii")
+    # nii.append(Y_)
+    # GL_set_value("nii", nii)
 
     return None
 
