@@ -40,8 +40,8 @@ def data_pre_PVC(data_mri, data_pet):
 
     Y = X
 
-    print("X shape:", X.shape)
-    print("Y shape:", Y.shape)
+    # print("X shape:", X.shape)
+    # print("Y shape:", Y.shape)
     return X, Y
 
 def data_pre_seg(data_mri, data_pet):
