@@ -123,7 +123,7 @@ def main():
         for idx in range(data_mri.shape[2]):
             model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
             GL_set_value("IDX_SLICE", idx)
-            X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+            X, Y = data_pre_PVC(data_mri=GL_get_value("data_mri"), data_pet=GL_get_value("data_pet"))
             # model.summary()
             model.compile(opt, loss)
             w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
