@@ -103,8 +103,8 @@ def main():
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
-    GL_set_value("data_mri", data_mri)
-    GL_set_value("data_pet", data_pet)
+    # GL_set_value("data_mri", data_mri)
+    # GL_set_value("data_pet", data_pet)
 
     if args.flag_whole == False:
         X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
@@ -123,14 +123,12 @@ def main():
         for idx in range(data_mri.shape[2]):
             model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
             GL_set_value("IDX_SLICE", idx)
-            X, Y = data_pre_PVC(data_mri=GL_get_value("data_mri"), data_pet=GL_get_value("data_pet"))
+            X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
             # model.summary()
             model.compile(opt, loss)
             w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
             del model
-            del data_mri
-            del data_pet
             gc.collect()
             print('The slice has been completed. '+str(idx))
         w_output()
