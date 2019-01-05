@@ -59,7 +59,26 @@ def w_pred(model, X, Y, n_epoch):
     for idx_epoch in range(n_epoch):
         curr_loss = model.train_on_batch(X, Y)
 
+    fig = plt.figure(figsize=(10, 5))
+    fig.show(False)
+    save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    fig.clf()
+    a = fig.add_subplot(1, 2, 1)
+    plt.imshow(np.rot90(Y[0, :, :, 0]), cmap='gray')
+    a.axis('off')
+    a.set_title('Y')
     Y_ = model.predict(X)
+    a = fig.add_subplot(1, 2, 2)
+    plt.imshow(np.rot90(Y_[0, :, :, 0]), cmap='gray')
+    a.axis('off')
+    a.set_title('\^Y')
+    fig.tight_layout()
+    fig.canvas.draw()
+    fig.savefig(save_path + 'progress_dip_{0:03d}.jpg'.format(GL_get_value("IDX_SLICE")))
+    fig.canvas.flush_events()
+
     nii = GL_get_value("nii")
     nii.append(Y_)
     GL_set_value("nii", nii)
