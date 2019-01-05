@@ -3,6 +3,7 @@
 
 
 import gc
+import os
 # import sys
 # import getopt
 import datetime
@@ -11,8 +12,9 @@ import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset
 from data.set_X_Y import data_pre_PVC, data_pre_seg
-from run.run_pvc import w_train
-from GL.w_global import GL_set_value
+from run.run_pvc import w_train, w_pred
+from GL.w_global import GL_set_value, GL_get_value
+from eval.output import w_output
 
 
 GL_set_value("IMG_ROWS", 512)
@@ -63,6 +65,8 @@ def main():
                         help='The depth of U-Net')
     parser.add_argument('--gap_flash', metavar='', type=int, default=100,
                         help='How many epochs between two flash shoot')
+    parser.add_argument('--flag_whole', metavar='', type=bool, default=False,
+                        help='Whether process the whole PET image')
 
     args = parser.parse_args()
 
@@ -84,6 +88,7 @@ def main():
     GL_set_value("n_filter", args.n_filter)
     GL_set_value("depth", args.depth)
     GL_set_value("gap_flash", args.gap_flash)
+    GL_set_value("flag_whole", args.flag_whole)
 
 
     print("------------------------------------------------------------------")
@@ -98,17 +103,34 @@ def main():
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
-    X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
-    # X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
-    model.summary()
-    model.compile(opt, loss)
-    w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)
+    if args.flag_whole == False:
+        X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+        # X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
+        model.summary()
+        model.compile(opt, loss)
+        w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
-    del model
-    del data_mri
-    del data_pet
-    gc.collect()
+        del model
+        del data_mri
+        del data_pet
+        gc.collect()
+    else:
+        nii = []
+        GL_set_value("nii", nii)
+        for idx in range(data_mri.shape[2]):
+            GL_set_value("IDX_SLICE", idx)
+            X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+            model.summary()
+            model.compile(opt, loss)
+            w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
+
+            del model
+            del data_mri
+            del data_pet
+            gc.collect()
+        w_output()
 
 
 if __name__ == "__main__":
     main()
+

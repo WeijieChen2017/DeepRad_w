@@ -6,7 +6,7 @@ import os
 import numpy as np
 import nibabel as nib
 import matplotlib.pyplot as plt
-from GL.w_global import GL_get_value
+from GL.w_global import GL_get_value, GL_set_value
 
 
 def w_train(model, X, Y, n_epoch):
@@ -52,4 +52,18 @@ def w_train(model, X, Y, n_epoch):
             # nib.save(nii_file_0, save_path+'progress_dip_{0:05d}_0.nii.gz'.format(idx_epoch))
             # nib.save(nii_file_1, save_path + 'progress_dip_{0:05d}_1.nii.gz'.format(idx_epoch))
             # nib.save(nii_file_2, save_path + 'progress_dip_{0:05d}_2.nii.gz'.format(idx_epoch))
+
+
+def w_pred(model, X, Y, n_epoch):
+
+    for idx_epoch in range(n_epoch):
+        curr_loss = model.train_on_batch(X, Y)
+
+    Y_ = model.predict(X)
+    nii = GL_get_value("nii")
+    nii.append(Y_)
+    GL_set_value("nii", nii)
+
+    return None
+
 
