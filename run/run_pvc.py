@@ -56,6 +56,8 @@ def w_train(model, X, Y, n_epoch):
 
 def w_pred(model, X, Y, n_epoch):
 
+    FA_NORM = GL_get_value("FA_NORM")
+
     for idx_epoch in range(n_epoch):
         curr_loss = model.train_on_batch(X, Y)
 
@@ -79,7 +81,7 @@ def w_pred(model, X, Y, n_epoch):
     fig.savefig(save_path + 'progress_dip_{0:03d}.jpg'.format(GL_get_value("IDX_SLICE")))
     fig.canvas.flush_events()
 
-    np.save(save_path + 'progress_dip_{0:03d}.nii'.format(GL_get_value("IDX_SLICE")), Y_)
+    np.save(save_path + 'progress_dip_{0:03d}.nii'.format(GL_get_value("IDX_SLICE")), Y_*FA_NORM)
     # nii = GL_get_value("nii")
     # nii.append(Y_)
     # GL_set_value("nii", nii)

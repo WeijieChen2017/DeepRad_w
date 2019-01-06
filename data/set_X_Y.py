@@ -3,7 +3,7 @@
 
 
 import numpy as np
-from GL.w_global import GL_get_value
+from GL.w_global import GL_get_value, GL_set_value
 
 
 def data_pre_PVC(data_mri, data_pet):
@@ -17,6 +17,7 @@ def data_pre_PVC(data_mri, data_pet):
     data_pet = GL_get_value("data_pet")
 
     FA_NORM = np.amax(data_pet[:, :, IDX_SLICE])
+    GL_set_value('FA_NORM', FA_NORM)
     MRI_TH = float(GL_get_value("MRI_TH"))
 
     X = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
