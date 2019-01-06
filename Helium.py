@@ -15,6 +15,7 @@ from data.set_X_Y import data_pre_PVC, data_pre_seg
 from run.run_pvc import w_train, w_pred
 from GL.w_global import GL_set_value, GL_get_value
 from eval.output import w_output
+from run.save_para import save_all
 
 
 GL_set_value("IMG_ROWS", 512)
@@ -102,42 +103,32 @@ def main():
     print("Build a U-Net:")
 
     # model establishment
+    if args.flag_whole:
+        GL_set_value("MODEL_ID", args.id)
+
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
-    GL_set_value("data_mri", data_mri)
-    GL_set_value("data_pet", data_pet)
 
-    if args.flag_whole == False:
-        X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
-        # X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
-        model.summary()
-        model.compile(opt, loss)
+    if args.flag_whole:
+        GL_set_value("IDX_SLICE", args.idx_slice)
+
+    X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
+    # X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
+    model.summary()
+    model.compile(opt, loss)
+
+    if args.flag_whole:
+        w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
+        print('The slice has been completed. ' + str(args.idx_slice))
+    else:
         w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
-        del model
-        del data_mri
-        del data_pet
-        gc.collect()
-    else:
-        GL_set_value("MODEL_ID", args.id)
-        nii = []
-        GL_set_value("nii", nii)
-        # for idx in range(data_mri.shape[2]):
-        idx = args.idx_slice
-        model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
-        GL_set_value("IDX_SLICE", idx)
-        X, Y = data_pre_PVC(data_mri=GL_get_value("data_mri"), data_pet=GL_get_value("data_pet"))
-        # model.summary()
-        model.compile(opt, loss)
-        w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
-
-        del model
-        del data_mri
-        del data_pet
-        gc.collect()
-        print('The slice has been completed. '+str(idx))
-        # w_output()
+    save_all()
+    del model
+    del data_mri
+    del data_pet
+    gc.collect()
 
 
 if __name__ == "__main__":

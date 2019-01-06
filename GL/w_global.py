@@ -15,3 +15,7 @@ def GL_get_value(key, defvalue=None):
         return GDICT[key]
     except KeyError:
         return defvalue
+
+
+def GL_all():
+    return GDICT
