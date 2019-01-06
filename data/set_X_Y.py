@@ -13,12 +13,9 @@ def data_pre_PVC(data_mri, data_pet):
     IDX_SLICE = GL_get_value("IDX_SLICE")
     # FA_NORM = GL_get_value("FA_NORM")
 
-    data_mri = GL_get_value("data_mri")
-    data_pet = GL_get_value("data_pet")
-
     FA_NORM = np.amax(data_pet[:, :, IDX_SLICE])
     GL_set_value('FA_NORM', FA_NORM)
-    MRI_TH = float(GL_get_value("MRI_TH"))
+    mri_th = float(GL_get_value("mri_th"))
 
     X = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
     Y = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
@@ -26,7 +23,7 @@ def data_pre_PVC(data_mri, data_pet):
 
     data_pet = np.divide(data_pet, FA_NORM)
 
-    Z[0, :, :, 0] = data_pet[:, :, IDX_SLICE] <= MRI_TH
+    Z[0, :, :, 0] = data_pet[:, :, IDX_SLICE] <= mri_th
     Z[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 3
 
     X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
