@@ -133,6 +133,8 @@ def main():
         w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
         del model
+        del data_mri
+        del data_pet
         gc.collect()
         print('The slice has been completed. '+str(idx))
         # w_output()
