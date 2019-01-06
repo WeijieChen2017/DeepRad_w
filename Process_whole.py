@@ -9,4 +9,4 @@ static = 'python Helium.py --w 1110 --n_filter 64 --epoch 40 --id d4f64eeVee' \
 for idx in range(284):
     static_curr = static+str(idx)
     print(static_curr)
-    # os.system(static_curr)
+    os.system(static_curr)
