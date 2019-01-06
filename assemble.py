@@ -15,7 +15,7 @@ parser.add_argument('--pet', metavar='', type=str, default="subj01", help='Name 
 args = parser.parse_args()
 
 ID = args.id
-data = []
+data = np.zeros((512, 512, 284))
 
 
 path = '.\\mid_results\\' + ID + "\\*.npy"
@@ -23,8 +23,8 @@ list_nii = glob.glob(path)
 
 for idx in range(len(list_nii)):
     curr_path = list_nii[idx]
-    curr_data = np.load(curr_path)
-    data.append(curr_data)
+    curr_data = np.load(curr_path).reshape((512, 512))
+    data[:, :, idx] = curr_data
 
 data = np.array(data)
 print(data.shape)
