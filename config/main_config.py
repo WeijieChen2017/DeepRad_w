@@ -8,7 +8,7 @@ from keras.optimizers import Adam
 
 from model.unet import unet
 from config.UDF import mean_squared_error_1e6
-from config.UDF import Gray_White_CSF
+from config.UDF import Gray_White_CSF, Gray_White_CSF_soomth
 from config.callbacks import set_checkpoint
 from GL.w_global import GL_get_value
 
@@ -53,9 +53,11 @@ def set_configuration(n_epoch=500, flag_aug=False):
             "metric": "mse",
             "optimizer": 'Adam',
             "batch_size": 10}
+    if GL_get_value("flag_smooth"):
+        conf["loss"] = conf["loss"]+'_smooth'
     np.save(log_path + 'info.npy', conf)
 
-    if flag_aug == True:
+    if flag_aug:
         # set augmentation configurations
         conf_a = {"rotation_range": 15, "shear_range": 10,
                   "width_shift_range": 0.33, "height_shift_range": 0.33, "zoom_range": 0.33,
@@ -84,6 +86,9 @@ def set_configuration(n_epoch=500, flag_aug=False):
         loss = mean_squared_error_1e6
     if conf["loss"] == 'Gray_White_CSF':
         loss = Gray_White_CSF
+    if conf["loss"] == 'Gray_White_CSF_smooth':
+        loss = Gray_White_CSF_soomth
+
 
     # callback
     callbacks_list = set_checkpoint(log_path=log_path, MODEL_ID=MODEL_ID, batch_size=conf["batch_size"])

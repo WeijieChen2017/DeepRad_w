@@ -69,6 +69,8 @@ def main():
                         help='Whether process the whole PET image')
     parser.add_argument('--idx_slice', metavar='', type=int, default=142,
                         help='The idx to be processed.')
+    parser.add_argument('--flag_smooth', metavar='', type=bool, default=False,
+                        help='Flag of Smooth loss function')
 
     args = parser.parse_args()
 
@@ -92,6 +94,7 @@ def main():
     GL_set_value("gap_flash", args.gap_flash)
     GL_set_value("flag_whole", args.flag_whole)
     GL_set_value("IDX_SLICE", args.idx_slice)
+    GL_set_value("flag_smooth", args.flag_smooth)
 
 
     print("------------------------------------------------------------------")

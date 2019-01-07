@@ -80,8 +80,9 @@ def Gray_White_CSF(y_true, y_pred):
     return pet_error * weight[0] + gm_error * weight[1] + wm_error * weight[2] + csf_error * weight[3]
 
 
-    def y_reg(weight_matrix):
-        return 0.01 * K.sum(K.abs(weight_matrix))
+def y_reg(weight_matrix):
+    return 0.01 * K.sum(K.abs(weight_matrix))
+
 
 def output_dataset(filename, list_train, list_val):
     file_name = filename + "dataset.txt"
@@ -104,3 +105,44 @@ def output_dataset(filename, list_train, list_val):
         print(' ', file=text_file)
         print("The testing set names:", file=text_file)
         # print(list_patient[LOOCV], file=text_file)
+
+
+def Gray_White_CSF_soomth(y_true, y_pred):
+
+    w_pgwc = (GL_get_value("W_PGWC"))
+
+    # [PET, Gray, White, CSF]
+    weight = [int(w_pgwc[0]),
+              int(w_pgwc[1]),
+              int(w_pgwc[2]),
+              int(w_pgwc[3])]
+
+    smooth_kernel = make_kernel()
+    y_true_smooth = K.conv2d(y_true, smooth_kernel, padding='same')
+
+    pet_error = K.mean(K.square(y_pred[:, :, :, 0] - y_true_smooth[:, :, :, 0]), axis=-1)
+
+    csf_mask = y_true_smooth[:, :, :, 1]
+    csf_true = csf_mask * y_true[:, :, :, 0]
+    csf_pred = csf_mask * y_pred[:, :, :, 0]
+    #     csf_error = K.mean(K.square(csf_pred - csf_true), axis=-1)
+    csf_error = K.max(K.square(csf_pred)) - K.mean(K.square(csf_true))
+
+    gm_mask = y_true_smooth[:, :, :, 2]
+    gm_true = gm_mask * y_true[:, :, :, 0]
+    gm_pred = gm_mask * y_pred[:, :, :, 0]
+    gm_error = K.mean(K.square(gm_pred - gm_true), axis=-1)
+
+    wm_mask = y_true_smooth[:, :, :, 3]
+    # wm_mask = np.bitwise_and(wm_mask == 1, y_true[:, :, :, 0] < MRI_TH)
+    wm_true = wm_mask * y_true[:, :, :, 0]
+    wm_pred = wm_mask * y_pred[:, :, :, 0]
+    # wm_sum = K.sum( wm_pred, axis=-1 )
+    #     wm_error = K.mean(K.square(wm_pred - wm_true), axis=-1)
+    wm_error = K.max(K.square(wm_pred)) - K.mean(K.square(wm_true))
+    return pet_error * weight[0] + gm_error * weight[1] + wm_error * weight[2] + csf_error * weight[3]
+
+
+def make_kernel():
+    kernel = np.reshape(np.array([[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]], dtype=np.single), [3, 3, 1, 1])
+    return kernel
