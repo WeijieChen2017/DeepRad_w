@@ -39,11 +39,11 @@ import os
 # os.system('python assemble.py --id d4f8e500_Kirby')
 
 # 4
-static1 = 'python Helium.py --w 1110 --epoch 200 --id d4f64e200_Kirby --flag_whole True' \
+static4 = 'python Helium.py --w 1110 --epoch 200 --id d4f64e200_Kirby --flag_whole True' \
          ' --flag_whole True --flag_reg True --type_yr l1 --para_yr 1e-9 --n_filter 64' \
          '--idx_slice '
 for idx in range(284):
-    static_curr = static1+str(idx)
+    static_curr = static4+str(idx)
     print(static_curr)
     os.system(static_curr)
 os.system('python assemble.py --id d4f64e200l1_Kirby')
