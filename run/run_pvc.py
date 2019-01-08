@@ -176,7 +176,7 @@ def w_pred_breast(model, X, Y, n_epoch):
 
     fig.tight_layout()
     fig.canvas.draw()
-    fig.savefig(save_path+'progress_dip_{0:03d}.jpg'.format(idx_epoch))
+    fig.savefig(save_path + 'progress_dip_{0:03d}.jpg'.format(GL_get_value("IDX_SLICE")))
     fig.canvas.flush_events()
 
     np.save(save_path + 'progress_dip_{0:03d}.nii'.format(GL_get_value("IDX_SLICE")), Y_*FA_NORM)
