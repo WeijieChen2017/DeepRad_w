@@ -91,7 +91,7 @@ def w_pred(model, X, Y, n_epoch):
 
 def w_train_breast(model, X, Y, n_epoch):
 
-    fig = plt.figure(figsize=(20, 5))
+    fig = plt.figure(figsize=(15, 10))
     fig.show(False)
 
     save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
@@ -105,28 +105,38 @@ def w_train_breast(model, X, Y, n_epoch):
         if idx_epoch % GL_get_value("gap_flash") == 0:
             fig.clf()
 
-            a = fig.add_subplot(1, 4, 1)
-            plt.imshow(np.rot90(Y[0, :, :, 0], 3), cmap='gray')
+            a = fig.add_subplot(2, 3, 1)
+            plt.imshow(np.rot90(X[0, :, :, 0], 3), cmap='gray')
             a.axis('off')
-            a.set_title('Y')
+            a.set_title('orginal PET')
+
+            a = fig.add_subplot(2, 3, 2)
+            plt.imshow(np.rot90(X[0, :, :, 1], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('orginal water')
+
+            a = fig.add_subplot(2, 3, 3)
+            plt.imshow(np.rot90(X[0, :, :, 2], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('orginal fat')
+
             Y_ = model.predict(X)
 
-            a = fig.add_subplot(1, 4, 3)
-            plt.imshow(np.rot90(Y[0, :, :, 1], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('Y')
-            Y_ = model.predict(X)
-
-            a = fig.add_subplot(1, 4, 4)
-            plt.imshow(np.rot90(Y[0, :, :, 2], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('Y')
-            Y_ = model.predict(X)
-
-            a = fig.add_subplot(1, 4, 2)
+            a = fig.add_subplot(2, 3, 4)
             plt.imshow(np.rot90(Y_[0, :, :, 0], 3), cmap='gray')
             a.axis('off')
-            a.set_title('\^Y')
+            a.set_title('modified PET')
+
+            a = fig.add_subplot(2, 3, 5)
+            plt.imshow(np.rot90(Y_[0, :, :, 1], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('modified water')
+            
+            a = fig.add_subplot(2, 3, 6)
+            plt.imshow(np.rot90(Y_[0, :, :, 2], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('modified fat')
+
             fig.tight_layout()
             fig.canvas.draw()
             fig.savefig(save_path+'progress_dip_{0:05d}.jpg'.format(idx_epoch))
