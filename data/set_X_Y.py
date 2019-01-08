@@ -71,3 +71,28 @@ def data_pre_seg(data_mri, data_pet):
 
     return X, Y
 
+
+def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
+
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    IDX_SLICE = GL_get_value("IDX_SLICE")
+
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
+
+    data_pet = np.divide(data_pet, np.amax(data_pet))
+    data_mri_water = np.divide(data_mri_water, np.amax(data_mri_water))
+    data_mri_fat = np.divide(data_mri_fat, np.amax(data_mri_fat))
+
+    X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
+    X[0, :, :, 1] = data_mri_water[:, :, IDX_SLICE]
+    X[0, :, :, 2] = data_mri_fat[:, :, IDX_SLICE]
+
+    Y = X
+
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
+
+    return X, Y
+
