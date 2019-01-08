@@ -126,4 +126,16 @@ def make_kernel():
 
 
 def loss_breast(y_true, y_pred):
-    return K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)*1e6
+
+    w_pgwc = (GL_get_value("W_PGWC"))
+
+    # [PET, Gray, White, CSF]
+    weight = [int(w_pgwc[0]),
+              int(w_pgwc[1]),
+              int(w_pgwc[2]),
+              int(w_pgwc[3])]
+    
+    loss1 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)
+    loss2 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 1]), axis=-1)
+    loss3 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 2]), axis=-1)
+    return loss1*weight[0] + loss2*weight[1] + loss3*weight[2]
