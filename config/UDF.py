@@ -134,7 +134,7 @@ def loss_breast(y_true, y_pred):
               int(w_pgwc[1]),
               int(w_pgwc[2]),
               int(w_pgwc[3])]
-    
+
     loss1 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)
     loss2 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 1]), axis=-1)
     loss3 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 2]), axis=-1)
