@@ -123,3 +123,7 @@ def Gray_White_CSF_soomth(y_true, y_pred):
 def make_kernel():
     kernel = np.reshape(np.array([[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]], dtype=np.single), [3, 3, 1, 1])
     return kernel
+
+
+def loss_breast(y_true, y_pred):
+    return K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)*1e6

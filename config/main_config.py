@@ -7,7 +7,7 @@ import numpy as np
 from keras.optimizers import Adam
 
 from model.unet import unet
-from config.UDF import mean_squared_error_1e6
+from config.UDF import mean_squared_error_1e6, loss_breast
 from config.UDF import Gray_White_CSF, Gray_White_CSF_soomth
 from config.callbacks import set_checkpoint
 from GL.w_global import GL_get_value
@@ -49,7 +49,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
             "beta_1": 0.9,
             "beta_2": 0.999,
             "epochs": n_epoch,
-            "loss": 'mse1e6',
+            "loss": 'loss_breast',
             "metric": "mse",
             "optimizer": 'Adam',
             "batch_size": 10}
@@ -88,7 +88,8 @@ def set_configuration(n_epoch=500, flag_aug=False):
         loss = Gray_White_CSF
     if conf["loss"] == 'Gray_White_CSF_smooth':
         loss = Gray_White_CSF_soomth
-
+    if conf["loss"] == 'loss_breast':
+        loss = loss_breast
 
     # callback
     callbacks_list = set_checkpoint(log_path=log_path, MODEL_ID=MODEL_ID, batch_size=conf["batch_size"])
