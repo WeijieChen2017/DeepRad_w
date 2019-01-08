@@ -78,8 +78,8 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
     IMG_COLS = GL_get_value("IMG_COLS")
     IDX_SLICE = GL_get_value("IDX_SLICE")
 
-    X = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
-    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
 
     data_pet = np.divide(data_pet, np.amax(data_pet))
     data_mri_water = np.divide(data_mri_water, np.amax(data_mri_water))

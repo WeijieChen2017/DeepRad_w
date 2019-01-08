@@ -30,7 +30,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
 
 
     # set traininig configurations
-    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 4),
+    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 3),
             "out_channel": 1,
             "filter": GL_get_value("n_filter"),
             "depth": GL_get_value("depth"),
