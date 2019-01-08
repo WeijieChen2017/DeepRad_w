@@ -81,6 +81,8 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
     X = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
     Y = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
 
+    GL_set_value("FA_NORM", np.amax(data_pet))
+
     data_pet = np.divide(data_pet, np.amax(data_pet))
     data_mri_water = np.divide(data_mri_water, np.amax(data_mri_water))
     data_mri_fat = np.divide(data_mri_fat, np.amax(data_mri_fat))

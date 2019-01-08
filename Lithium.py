@@ -12,7 +12,7 @@ import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset_brest
 from data.set_X_Y import data_pre_breast
-from run.run_pvc import w_train_breast, w_pred
+from run.run_pvc import w_train_breast, w_pred_breast
 from GL.w_global import GL_set_value, GL_get_value
 from eval.output import w_output
 from run.save_para import save_all
@@ -42,7 +42,7 @@ def main():
                         help='Number of epoches of training.(2000)')
     parser.add_argument('-i', '--id', metavar='', type=str, default="eeVee",
                         help='ID of the current model.(eeVee)')
-    parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="5115",
+    parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="1100",
                         help='Weight of PET/Gm/Wm/CSF(5115)')
     parser.add_argument('--flag_BN', metavar='', type=bool, default=True,
                         help='Flag of BatchNormlization(True)')
@@ -58,7 +58,7 @@ def main():
                         help='Para of weight regularizer(0.01)')
     parser.add_argument('--para_yr', metavar='', type=float, default=0.01,
                         help='Para of y regularizer(0.01)')
-    parser.add_argument('--n_filter', metavar='', type=int, default=16,
+    parser.add_argument('--n_filter', metavar='', type=int, default=64,
                         help='The initial filter number')
     parser.add_argument('--depth', metavar='', type=int, default=4,
                         help='The depth of U-Net')
@@ -114,7 +114,7 @@ def main():
     model.compile(opt, loss)
 
     if args.flag_whole:
-        w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
+        w_pred_breast(model=model, X=X, Y=Y, n_epoch=n_epoch)
         print('The slice has been completed. ' + str(args.idx_slice))
     else:
         w_train_breast(model=model, X=X, Y=Y, n_epoch=n_epoch)
