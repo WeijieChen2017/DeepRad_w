@@ -111,13 +111,13 @@ def w_train_breast(model, X, Y, n_epoch):
             a.set_title('Y')
             Y_ = model.predict(X)
 
-            a = fig.add_subplot(1, 4, 1)
+            a = fig.add_subplot(1, 4, 3)
             plt.imshow(np.rot90(Y[0, :, :, 1], 3), cmap='gray')
             a.axis('off')
             a.set_title('Y')
             Y_ = model.predict(X)
 
-            a = fig.add_subplot(1, 4, 1)
+            a = fig.add_subplot(1, 4, 4)
             plt.imshow(np.rot90(Y[0, :, :, 2], 3), cmap='gray')
             a.axis('off')
             a.set_title('Y')
