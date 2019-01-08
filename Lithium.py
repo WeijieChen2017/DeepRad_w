@@ -77,7 +77,7 @@ def main():
     args = parser.parse_args()
 
     dir_mri_water = './/files//'+args.mri_water+'_water.nii.gz'
-    dir_mri_pet = './/files//' + args.mri_fat + '_pet.nii.gz'
+    dir_mri_fat = './/files//' + args.mri_fat + '_pet.nii.gz'
     dir_pet = './/files//'+args.pet+'_pet.nii.gz'
     n_epoch = args.epoch + 1
 
