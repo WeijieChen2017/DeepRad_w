@@ -91,7 +91,7 @@ def w_pred(model, X, Y, n_epoch):
 
 def w_train_breast(model, X, Y, n_epoch):
 
-    fig = plt.figure(figsize=(15, 10))
+    fig = plt.figure(figsize=(16, 4))
     fig.show(False)
 
     save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
