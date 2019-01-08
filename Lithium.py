@@ -80,7 +80,6 @@ def main():
 
     time_stamp = datetime.datetime.now().strftime("-%Y-%m-%d-%H-%M")
     GL_set_value("MODEL_ID", args.id+time_stamp)
-    GL_set_value("mri_th", args.th_wm)
     GL_set_value("W_PGWC", args.w_pgwc)
     GL_set_value("flag_BN", args.flag_BN)
     GL_set_value("flag_Dropout", args.flag_Dropout)
