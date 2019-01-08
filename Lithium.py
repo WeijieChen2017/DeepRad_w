@@ -11,7 +11,7 @@ import argparse
 import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset_brest
-from data.set_X_Y import data_pre_PVC, data_pre_seg
+from data.set_X_Y import data_pre_breast
 from run.run_pvc import w_train, w_pred
 from GL.w_global import GL_set_value, GL_get_value
 from eval.output import w_output
