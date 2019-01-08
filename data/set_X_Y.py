@@ -3,6 +3,7 @@
 
 
 import numpy as np
+import gc
 from GL.w_global import GL_get_value, GL_set_value
 
 
@@ -19,17 +20,21 @@ def data_pre_PVC(data_mri, data_pet):
 
     X = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
     Y = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
-    Z = np.zeros((1, IMG_ROWS, IMG_COLS, 2))
+    Z = np.zeros((1, IMG_ROWS, IMG_COLS, 4))
 
     data_pet = np.divide(data_pet, FA_NORM)
 
     Z[0, :, :, 0] = data_pet[:, :, IDX_SLICE] <= mri_th
     Z[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 3
+    Z[0, :, :, 2] = data_mri[:, :, IDX_SLICE] != 0
+    Z[0, :, :, 2] = Z[0, :, :, 2].astype(bool).astype(int)
+    Z[0, :, :, 3] = data_pet[:, :, IDX_SLICE] > mri_th
 
-    X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
-    X[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 1
-    X[0, :, :, 2] = data_mri[:, :, IDX_SLICE] == 2
-    X[0, :, :, 3] = Z[0, :, :, 0]*Z[0, :, :, 1]
+    X[0, :, :, 0] = data_pet[:, :, IDX_SLICE] * Z[0, :, :, 2]  # PET
+    X[0, :, :, 1] = data_mri[:, :, IDX_SLICE] == 1  # CSF
+    X[0, :, :, 2] = data_mri[:, :, IDX_SLICE] == 2  # gray matter
+    X[0, :, :, 2] = (Z[0, :, :, 3] + X[0, :, :, 2]).astype(bool).astype(int) # gray matter
+    X[0, :, :, 3] = Z[0, :, :, 0]*Z[0, :, :, 1]  # white matter
 
     # if GL_get_value("flag_reg"):
     #     Y = X.flatten()
@@ -37,7 +42,8 @@ def data_pre_PVC(data_mri, data_pet):
     #     Y = X
 
     Y = X
-
+    del Z
+    gc.collect()
     # print("X shape:", X.shape)
     # print("Y shape:", Y.shape)
     return X, Y

@@ -113,8 +113,7 @@ def main():
     # add_regularizer(model)
     data_mri, data_pet = set_dataset(dir_mri=dir_mri, dir_pet=dir_pet)
 
-    if args.flag_whole:
-        GL_set_value("IDX_SLICE", args.idx_slice)
+    GL_set_value("IDX_SLICE", args.idx_slice)
 
     X, Y = data_pre_PVC(data_mri=data_mri, data_pet=data_pet)
     # X, Y = data_pre_seg(data_mri=data_mri, data_pet=data_pet)
