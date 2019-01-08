@@ -105,15 +105,15 @@ def main():
 
     model, opt, loss, callbacks_list, conf = set_configuration(n_epoch=n_epoch, flag_aug=False)
     # add_regularizer(model)
-    data_mri, data_pet = set_dataset_brest(dir_mri_water=dir_mri_water,
-                                           dir_mri_fat=dir_mri_fat,
-                                           dir_pet=dir_pet)
+    data_mri_water, data_mri_fat, data_pet = set_dataset_brest(dir_mri_water=dir_mri_water,
+                                                               dir_mri_fat=dir_mri_fat,
+                                                               dir_pet=dir_pet)
 
     GL_set_value("IDX_SLICE", args.idx_slice)
 
-    X, Y = data_pre_breast(dir_mri_water=dir_mri_water,
-                           dir_mri_fat=dir_mri_fat,
-                           dir_pet=dir_pet)
+    X, Y = data_pre_breast(data_mri_water=data_mri_water,
+                           data_mri_fat=data_mri_fat,
+                           data_pet=data_pet)
     model.summary()
     model.compile(opt, loss)
 
