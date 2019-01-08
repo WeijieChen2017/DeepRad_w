@@ -84,29 +84,6 @@ def y_reg(weight_matrix):
     return 0.01 * K.sum(K.abs(weight_matrix))
 
 
-def output_dataset(filename, list_train, list_val):
-    file_name = filename + "dataset.txt"
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-
-    with open(file_name, "w") as text_file:
-        print("Date: ", date, file=text_file)
-        print("Produced by Winston Chen", file=text_file)
-        print("Number of the training set: ", 14, file=text_file)
-        print("Number of the testing set: ", 5, file=text_file)
-        print(' ', file=text_file)
-        print("The training set names:", file=text_file)
-        for i in list_train:
-            print(i, file=text_file)
-        print(' ', file=text_file)
-        print("The validation set names:", file=text_file)
-        for i in list_val:
-            print(i, file=text_file)
-        print(' ', file=text_file)
-        print("The testing set names:", file=text_file)
-        # print(list_patient[LOOCV], file=text_file)
-
-
 def Gray_White_CSF_soomth(y_true, y_pred):
 
     w_pgwc = (GL_get_value("W_PGWC"))
