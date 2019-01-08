@@ -148,38 +148,36 @@ def w_pred_breast(model, X, Y, n_epoch):
         os.makedirs(save_path)
 
     for idx_epoch in range(n_epoch):
-
         curr_loss = model.train_on_batch(X, Y)
 
-        if idx_epoch % GL_get_value("gap_flash") == 0:
-            fig.clf()
+    fig.clf()
 
-            a = fig.add_subplot(1, 4, 1)
-            plt.imshow(np.rot90(X[0, :, :, 0], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('orginal PET')
+    a = fig.add_subplot(1, 4, 1)
+    plt.imshow(np.rot90(X[0, :, :, 0], 3), cmap='gray')
+    a.axis('off')
+    a.set_title('orginal PET')
 
-            a = fig.add_subplot(1, 4, 2)
-            plt.imshow(np.rot90(X[0, :, :, 1], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('orginal water')
+    a = fig.add_subplot(1, 4, 2)
+    plt.imshow(np.rot90(X[0, :, :, 1], 3), cmap='gray')
+    a.axis('off')
+    a.set_title('orginal water')
 
-            a = fig.add_subplot(1, 4, 3)
-            plt.imshow(np.rot90(X[0, :, :, 2], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('orginal fat')
+    a = fig.add_subplot(1, 4, 3)
+    plt.imshow(np.rot90(X[0, :, :, 2], 3), cmap='gray')
+    a.axis('off')
+    a.set_title('orginal fat')
 
-            Y_ = model.predict(X)
+    Y_ = model.predict(X)
 
-            a = fig.add_subplot(1, 4, 4)
-            plt.imshow(np.rot90(Y_[0, :, :, 0], 3), cmap='gray')
-            a.axis('off')
-            a.set_title('modified PET')
+    a = fig.add_subplot(1, 4, 4)
+    plt.imshow(np.rot90(Y_[0, :, :, 0], 3), cmap='gray')
+    a.axis('off')
+    a.set_title('modified PET')
 
-            fig.tight_layout()
-            fig.canvas.draw()
-            fig.savefig(save_path+'progress_dip_{0:05d}.jpg'.format(idx_epoch))
-            fig.canvas.flush_events()
+    fig.tight_layout()
+    fig.canvas.draw()
+    fig.savefig(save_path+'progress_dip_{0:03d}.jpg'.format(idx_epoch))
+    fig.canvas.flush_events()
 
     np.save(save_path + 'progress_dip_{0:03d}.nii'.format(GL_get_value("IDX_SLICE")), Y_*FA_NORM)
 
