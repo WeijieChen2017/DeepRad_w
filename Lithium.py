@@ -42,8 +42,6 @@ def main():
                         help='Number of epoches of training.(2000)')
     parser.add_argument('-i', '--id', metavar='', type=str, default="eeVee",
                         help='ID of the current model.(eeVee)')
-    parser.add_argument('-t', '--th_wm', metavar='', type=float, default=0.571,
-                        help='Threshold of white matter.(0.571)')
     parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="5115",
                         help='Weight of PET/Gm/Wm/CSF(5115)')
     parser.add_argument('--flag_BN', metavar='', type=bool, default=True,
@@ -124,7 +122,8 @@ def main():
 
     save_all()
     del model
-    del data_mri
+    del data_mri_water
+    del data_mri_fat
     del data_pet
     gc.collect()
 
