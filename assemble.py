@@ -14,7 +14,7 @@ parser.add_argument('--id', metavar='', type=str, default="d4f64PET", help='Name
 parser.add_argument('--pet', metavar='', type=str, default="subj01", help='Name of PET subject.(subj01)')
 args = parser.parse_args()
 
-dir_pet = './/files//'+args.pet+'_pet.nii.gz'
+dir_pet = './/files//'+args.pet+'_pet.nii'
 pet_file = nib.load(dir_pet)
 pet_img = pet_file.get_fdata()
 
