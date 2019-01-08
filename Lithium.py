@@ -18,10 +18,9 @@ from eval.output import w_output
 from run.save_para import save_all
 
 
-GL_set_value("IMG_ROWS", 512)
-GL_set_value("IMG_COLS", 512)
-GL_set_value("IMG_DEPT", 284)
-GL_set_value("FA_NORM", 35000.0)
+GL_set_value("IMG_ROWS", 256)
+GL_set_value("IMG_COLS", 256)
+GL_set_value("IMG_DEPT", 80)
 
 np.random.seed(591)
 
@@ -69,7 +68,7 @@ def main():
                         help='How many epochs between two flash shoot')
     parser.add_argument('--flag_whole', metavar='', type=bool, default=False,
                         help='Whether process the whole PET image')
-    parser.add_argument('--idx_slice', metavar='', type=int, default=142,
+    parser.add_argument('--idx_slice', metavar='', type=int, default=41,
                         help='The idx to be processed.')
     parser.add_argument('--flag_smooth', metavar='', type=bool, default=False,
                         help='Flag of Smooth loss function')
