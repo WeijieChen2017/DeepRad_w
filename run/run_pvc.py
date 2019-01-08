@@ -89,3 +89,45 @@ def w_pred(model, X, Y, n_epoch):
     return None
 
 
+def w_train_breast(model, X, Y, n_epoch):
+
+    fig = plt.figure(figsize=(20, 5))
+    fig.show(False)
+
+    save_path = '.\\mid_results\\' + GL_get_value("MODEL_ID") + "\\"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    for idx_epoch in range(n_epoch):
+
+        curr_loss = model.train_on_batch(X, Y)
+
+        if idx_epoch % GL_get_value("gap_flash") == 0:
+            fig.clf()
+
+            a = fig.add_subplot(1, 4, 1)
+            plt.imshow(np.rot90(Y[0, :, :, 0], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('Y')
+            Y_ = model.predict(X)
+
+            a = fig.add_subplot(1, 4, 1)
+            plt.imshow(np.rot90(Y[0, :, :, 1], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('Y')
+            Y_ = model.predict(X)
+
+            a = fig.add_subplot(1, 4, 1)
+            plt.imshow(np.rot90(Y[0, :, :, 2], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('Y')
+            Y_ = model.predict(X)
+
+            a = fig.add_subplot(1, 4, 2)
+            plt.imshow(np.rot90(Y_[0, :, :, 0], 3), cmap='gray')
+            a.axis('off')
+            a.set_title('\^Y')
+            fig.tight_layout()
+            fig.canvas.draw()
+            fig.savefig(save_path+'progress_dip_{0:05d}.jpg'.format(idx_epoch))
+            fig.canvas.flush_events()

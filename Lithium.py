@@ -12,7 +12,7 @@ import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset_brest
 from data.set_X_Y import data_pre_breast
-from run.run_pvc import w_train, w_pred
+from run.run_pvc import w_train_breast, w_pred
 from GL.w_global import GL_set_value, GL_get_value
 from eval.output import w_output
 from run.save_para import save_all
@@ -117,7 +117,7 @@ def main():
         w_pred(model=model, X=X, Y=Y, n_epoch=n_epoch)
         print('The slice has been completed. ' + str(args.idx_slice))
     else:
-        w_train(model=model, X=X, Y=Y, n_epoch=n_epoch)
+        w_train_breast(model=model, X=X, Y=Y, n_epoch=n_epoch)
 
     save_all()
     del model
