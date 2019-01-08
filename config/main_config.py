@@ -49,7 +49,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
             "beta_1": 0.9,
             "beta_2": 0.999,
             "epochs": n_epoch,
-            "loss": 'Gray_White_CSF',
+            "loss": 'mse1e6',
             "metric": "mse",
             "optimizer": 'Adam',
             "batch_size": 10}
