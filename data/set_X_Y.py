@@ -90,12 +90,12 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
     X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
     img_w = data_mri_water[:, :, IDX_SLICE]
     img_f = data_mri_fat[:, :, IDX_SLICE]
-    img_sum = img_f + img_w
+    img_sum = img_f + img_w + 1e-6
     img_sum = img_sum / np.amax(img_sum)
-    mask = np.asarray([img_sum > 0.2]).reshape((256, 256))
+    mask = np.asarray([img_sum > 0.2]).reshape((256, 256)).astype(int)
 
     img_f = np.divide(img_f, img_sum) * mask
-    # img_f = img_f / np.amax(img_f)
+    img_f = img_f / np.amax(img_f)
     img_f[img_f < 0.7] = 0
 
     X[0, :, :, 2] = img_f
