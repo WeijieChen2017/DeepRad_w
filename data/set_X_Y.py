@@ -90,6 +90,7 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
     X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
     X[0, :, :, 1] = data_mri_water[:, :, IDX_SLICE]
     X[0, :, :, 2] = data_mri_fat[:, :, IDX_SLICE]
+    X[0, :, :, 2][X[0, :, :, 2] < 0.2] = 0
 
     Y = X
 

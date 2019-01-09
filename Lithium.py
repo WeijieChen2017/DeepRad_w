@@ -38,11 +38,11 @@ def main():
                         help='Name of MRI fat subject.(subj02)')
     parser.add_argument('-p', '--pet', metavar='', type=str, default="subj02",
                         help='Name of PET subject.(subj02)')
-    parser.add_argument('-e', '--epoch', metavar='', type=int, default=500,
+    parser.add_argument('-e', '--epoch', metavar='', type=int, default=1000,
                         help='Number of epoches of training.(2000)')
     parser.add_argument('-i', '--id', metavar='', type=str, default="eeVee",
                         help='ID of the current model.(eeVee)')
-    parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="1100",
+    parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="7100",
                         help='Weight of PET/Gm/Wm/CSF(5115)')
     parser.add_argument('--flag_BN', metavar='', type=bool, default=True,
                         help='Flag of BatchNormlization(True)')
@@ -66,7 +66,7 @@ def main():
                         help='How many epochs between two flash shoot')
     parser.add_argument('--flag_whole', metavar='', type=bool, default=False,
                         help='Whether process the whole PET image')
-    parser.add_argument('--idx_slice', metavar='', type=int, default=41,
+    parser.add_argument('--idx_slice', metavar='', type=int, default=47,
                         help='The idx to be processed.')
     parser.add_argument('--flag_smooth', metavar='', type=bool, default=False,
                         help='Flag of Smooth loss function')
