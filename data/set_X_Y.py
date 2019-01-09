@@ -96,7 +96,7 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
 
     X[0, :, :, 2] = np.divide(X[0, :, :, 2], X_sum) * mask
 
-    X[0, :, :, 2][X[0, :, :, 2] < 0.7] = 0
+    # X[0, :, :, 2][X[0, :, :, 2] < 0.7] = 0
 
     Y = X
 
