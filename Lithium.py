@@ -38,7 +38,7 @@ def main():
                         help='Name of MRI fat subject.(subj02)')
     parser.add_argument('-p', '--pet', metavar='', type=str, default="subj02",
                         help='Name of PET subject.(subj02)')
-    parser.add_argument('-e', '--epoch', metavar='', type=int, default=1000,
+    parser.add_argument('-e', '--epoch', metavar='', type=int, default=2000,
                         help='Number of epoches of training.(2000)')
     parser.add_argument('-i', '--id', metavar='', type=str, default="eeVee",
                         help='ID of the current model.(eeVee)')
