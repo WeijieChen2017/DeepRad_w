@@ -11,7 +11,7 @@ import argparse
 import numpy as np
 from config.main_config import set_configuration
 from data.load_data import set_dataset_brest
-from data.set_X_Y import data_pre_breast
+from data.set_X_Y import data_pre_breast, data_pre_breast_practical, data_pre_breast_p2p
 from run.run_pvc import w_train_breast, w_pred_breast
 from GL.w_global import GL_set_value, GL_get_value
 from eval.output import w_output
@@ -42,8 +42,12 @@ def main():
                         help='Number of epoches of training.(2000)')
     parser.add_argument('-i', '--id', metavar='', type=str, default="eeVee",
                         help='ID of the current model.(eeVee)')
-    parser.add_argument('-w', '--w_pgwc', metavar='', type=str, default="7100",
-                        help='Weight of PET/Gm/Wm/CSF(5115)')
+    parser.add_argument('--w_pet', metavar='', type=int, default=7000,
+                        help='Weight of PET')
+    parser.add_argument('--w_water', metavar='', type=int, default=100,
+                        help='Weight of water MRI')
+    parser.add_argument('--w_fat', metavar='', type=int, default=1,
+                        help='Weight of fat MRI')
     parser.add_argument('--flag_BN', metavar='', type=bool, default=True,
                         help='Flag of BatchNormlization(True)')
     parser.add_argument('--flag_Dropout', metavar='', type=bool, default=True,
@@ -80,7 +84,9 @@ def main():
 
     time_stamp = datetime.datetime.now().strftime("-%Y-%m-%d-%H-%M")
     GL_set_value("MODEL_ID", args.id+time_stamp)
-    GL_set_value("W_PGWC", args.w_pgwc)
+    GL_set_value("w_pet", args.w_pet)
+    GL_set_value("w_water", args.w_water)
+    GL_set_value("w_fat", args.w_fat)
     GL_set_value("flag_BN", args.flag_BN)
     GL_set_value("flag_Dropout", args.flag_Dropout)
     GL_set_value("flag_reg", args.flag_reg)
@@ -107,9 +113,7 @@ def main():
 
     GL_set_value("IDX_SLICE", args.idx_slice)
 
-    X, Y = data_pre_breast(data_mri_water=data_mri_water,
-                           data_mri_fat=data_mri_fat,
-                           data_pet=data_pet)
+    X, Y = data_pre_breast_p2p(data_mri_water=data_mri_water, data_mri_fat=data_mri_fat, data_pet=data_pet)
     model.summary()
     model.compile(opt, loss)
 

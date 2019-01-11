@@ -127,18 +127,50 @@ def make_kernel():
 
 def loss_breast(y_true, y_pred):
 
-    w_pgwc = (GL_get_value("W_PGWC"))
+    w_pet = GL_get_value("w_pet")
+    w_water = GL_get_value("w_water")
+    w_fat = GL_get_value("w_fat")
+    fat_mask = GL_get_value("img_ff")
 
-    # [PET, Gray, White, CSF]
-    weight = [int(w_pgwc[0]),
-              int(w_pgwc[1]),
-              int(w_pgwc[2]),
-              int(w_pgwc[3])]
-
-    fat_mask = y_true[0, :, :, 2]
+    #fat_mask = y_true[0, :, :, 2]
     fat_true = fat_mask * y_true[0, :, :, 0]
     fat_pred = fat_mask * y_pred[0, :, :, 0]
-    loss1 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)
-    loss2 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 1]), axis=-1)
-    loss3 = K.max(K.square(fat_pred)) - K.mean(K.square(fat_true))
-    return loss1*weight[0] + loss2*weight[1] + loss3*weight[2]
+    loss1 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)  # PET
+    loss2 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 1]), axis=-1)  # water
+    loss3 = K.max(K.square(fat_pred)) - K.mean(K.square(fat_true))  # fat
+    return loss1*w_pet + loss2*w_water + loss3*w_fat
+
+
+def loss_breast_practical(y_true, y_pred):
+
+    w_pet = GL_get_value("w_pet")
+    w_water = GL_get_value("w_water")
+    w_fat = GL_get_value("w_fat")
+    fat_mask = GL_get_value("img_ff")
+
+    # fat_mask = y_true[0, :, :, 2]
+    fat_true = fat_mask * y_true[0, :, :, 0]
+    fat_pred = fat_mask * y_pred[0, :, :, 0]
+    loss1 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 0]), axis=-1)  # PET
+    loss2 = K.mean(K.square(y_pred[0, :, :, 0] - y_true[0, :, :, 1]), axis=-1)  # water
+    loss3 = K.max(K.square(fat_pred)) - K.mean(K.square(fat_true))  # fat
+    return loss1*w_pet + loss2*w_water + loss3*w_fat
+
+
+def loss_breast_p2p(y_true, y_pred):
+
+    w_pet = GL_get_value("w_pet")
+    w_water = GL_get_value("w_water")
+    w_fat = GL_get_value("w_fat")
+    img_ff = GL_get_value("img_ff")
+    img_wf = GL_get_value("img_wf")
+    mask_pet = 1-GL_get_value("mask_pet")
+
+    DC_pred = y_pred * mask_pet
+    DC_true = y_true * mask_pet
+    loss1 = K.mean(K.square(y_pred - y_true), axis=-1)  # PET
+    loss2 = K.mean(K.square(y_pred*img_wf - y_true*img_wf) , axis=-1)  # water
+    # loss3 = K.max(K.square(fat_pred)) - K.mean(K.square(fat_true))  # fat
+    loss3 = K.mean(K.square(y_pred*img_ff - y_true*img_ff), axis=-1)  # fat
+    loss4 = K.max(K.square(DC_pred)) - K.mean(K.square(DC_true))  # DC
+    return loss1*w_pet + loss2*w_water + loss3*w_fat

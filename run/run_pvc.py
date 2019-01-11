@@ -91,6 +91,8 @@ def w_pred(model, X, Y, n_epoch):
 
 def w_train_breast(model, X, Y, n_epoch):
 
+    img_ff = GL_get_value("img_ff")
+    img_wf = GL_get_value("img_wf")
     fig = plt.figure(figsize=(16, 4))
     fig.show(False)
 
@@ -111,12 +113,12 @@ def w_train_breast(model, X, Y, n_epoch):
             a.set_title('orginal PET')
 
             a = fig.add_subplot(1, 4, 2)
-            plt.imshow(np.rot90(X[0, :, :, 1], 3), cmap='gray')
+            plt.imshow(np.rot90(img_wf, 3), cmap='gray')
             a.axis('off')
             a.set_title('orginal water')
 
             a = fig.add_subplot(1, 4, 3)
-            plt.imshow(np.rot90(X[0, :, :, 2], 3), cmap='gray')
+            plt.imshow(np.rot90(img_ff, 3), cmap='gray')
             a.axis('off')
             a.set_title('orginal fat')
 
@@ -136,9 +138,8 @@ def w_train_breast(model, X, Y, n_epoch):
 def w_pred_breast(model, X, Y, n_epoch):
 
     FA_NORM = GL_get_value("FA_NORM")
-
-    for idx_epoch in range(n_epoch):
-        curr_loss = model.train_on_batch(X, Y)
+    img_ff = GL_get_value("img_ff")
+    img_Wf = GL_get_value("img_wf")
 
     fig = plt.figure(figsize=(16, 4))
     fig.show(False)
@@ -158,12 +159,12 @@ def w_pred_breast(model, X, Y, n_epoch):
     a.set_title('orginal PET')
 
     a = fig.add_subplot(1, 4, 2)
-    plt.imshow(np.rot90(X[0, :, :, 1], 3), cmap='gray')
+    plt.imshow(np.rot90(img_wf, 3), cmap='gray')
     a.axis('off')
     a.set_title('orginal water')
 
     a = fig.add_subplot(1, 4, 3)
-    plt.imshow(np.rot90(X[0, :, :, 2], 3), cmap='gray')
+    plt.imshow(np.rot90(img_ff, 3), cmap='gray')
     a.axis('off')
     a.set_title('orginal fat')
 

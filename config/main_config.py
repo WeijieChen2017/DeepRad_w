@@ -7,7 +7,8 @@ import numpy as np
 from keras.optimizers import Adam
 
 from model.unet import unet
-from config.UDF import mean_squared_error_1e6, loss_breast
+from config.UDF import mean_squared_error_1e6, loss_breast,\
+                       loss_breast_practical, loss_breast_p2p
 from config.UDF import Gray_White_CSF, Gray_White_CSF_soomth
 from config.callbacks import set_checkpoint
 from GL.w_global import GL_get_value
@@ -30,7 +31,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
 
 
     # set traininig configurations
-    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 3),
+    conf = {"image_shape": (IMG_ROWS, IMG_COLS, 1),
             "out_channel": 1,
             "filter": GL_get_value("n_filter"),
             "depth": GL_get_value("depth"),
@@ -49,7 +50,7 @@ def set_configuration(n_epoch=500, flag_aug=False):
             "beta_1": 0.9,
             "beta_2": 0.999,
             "epochs": n_epoch,
-            "loss": 'loss_breast',
+            "loss": 'loss_breast_p2p',
             "metric": "mse",
             "optimizer": 'Adam',
             "batch_size": 10}
@@ -90,6 +91,10 @@ def set_configuration(n_epoch=500, flag_aug=False):
         loss = Gray_White_CSF_soomth
     if conf["loss"] == 'loss_breast':
         loss = loss_breast
+    if conf["loss"] == 'loss_breast_practical':
+        loss = loss_breast_practical
+    if conf["loss"] == 'loss_breast_p2p':
+        loss = loss_breast_p2p
 
     # callback
     callbacks_list = set_checkpoint(log_path=log_path, MODEL_ID=MODEL_ID, batch_size=conf["batch_size"])

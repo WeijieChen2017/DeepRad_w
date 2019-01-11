@@ -5,7 +5,7 @@
 import numpy as np
 import gc
 from GL.w_global import GL_get_value, GL_set_value
-
+import skimage.morphology as sm
 
 def data_pre_PVC(data_mri, data_pet):
 
@@ -83,6 +83,9 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
 
     GL_set_value("FA_NORM", np.amax(data_pet))
 
+    img_p = data_pet[:, :, IDX_SLICE]
+    mask = np.asarray([img_p > 350]).reshape((256, 256)).astype(int)
+
     data_pet = np.divide(data_pet, np.amax(data_pet))
     data_mri_water = np.divide(data_mri_water, np.amax(data_mri_water))
     data_mri_fat = np.divide(data_mri_fat, np.amax(data_mri_fat))
@@ -90,17 +93,19 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
     X[0, :, :, 0] = data_pet[:, :, IDX_SLICE]
     img_w = data_mri_water[:, :, IDX_SLICE]
     img_f = data_mri_fat[:, :, IDX_SLICE]
+
     img_sum = img_f + img_w + 1e-6
-    img_sum = img_sum / np.amax(img_sum)
-    mask = np.asarray([img_sum > 0.2]).reshape((256, 256)).astype(int)
+    # img_sum = img_sum / np.amax(img_sum)
 
-    img_f = np.divide(img_f, img_sum) * mask
-    img_f = img_f / np.amax(img_f)
-    img_f[img_f <= 0.95] = 0
 
-    X[0, :, :, 2] = img_f
+    img_ff = np.divide(img_f, img_sum) * mask
+    # img_f = img_f / np.amax(img_f)
+    #img_f[img_f <= 0.95] = 0
+
+    X[0, :, :, 2] = img_w
     X[0, :, :, 1] = img_w
-
+    print(img_ff.shape)
+    GL_set_value("img_ff", img_ff)
     Y = X
 
     print("X shape:", X.shape)
@@ -108,3 +113,135 @@ def data_pre_breast(data_mri_water, data_mri_fat, data_pet):
 
     return X, Y
 
+
+def data_pre_breast_practical(data_mri_water, data_mri_fat, data_pet):
+
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    IDX_SLICE = GL_get_value("IDX_SLICE")
+
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 3))
+
+    GL_set_value("FA_NORM", np.amax(data_pet))
+
+    img_p = data_pet[:, :, IDX_SLICE]
+    mask_pet = np.asarray([img_p > 350]).reshape((256, 256)).astype(int)
+
+    # data_pet = np.divide(data_pet, np.amax(data_pet))
+    # data_mri_water = np.divide(data_mri_water, np.amax(data_mri_water))
+    # data_mri_fat = np.divide(data_mri_fat, np.amax(data_mri_fat))
+
+
+    img_w = data_mri_water[:, :, IDX_SLICE]
+    img_f = data_mri_fat[:, :, IDX_SLICE]
+
+    img_sum = img_f + img_w + 1e-6
+    mask_sum = np.asarray([img_sum > 150]).reshape((256, 256)).astype(int)
+    mask = mask_pet * mask_sum
+    mask = sm.opening(mask, sm.disk(5))
+    mask = sm.closing(mask, sm.square(5))
+
+    # img_sum = img_sum / np.amax(img_sum)
+
+    img_ff = np.divide(img_f, img_sum) * mask
+    # img_f = img_f / np.amax(img_f)
+    # img_ff[img_ff <= 0.8] = 0
+
+    X[0, :, :, 0] = np.divide(img_p, np.amax(data_pet))
+    X[0, :, :, 2] = np.divide(img_w, np.amax(data_mri_water))
+    X[0, :, :, 1] = np.divide(img_w, np.amax(data_mri_water))
+    print(img_ff.shape)
+    GL_set_value("img_ff", img_ff)
+    Y = X
+
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
+
+    return X, Y
+
+
+def data_pre_breast_p2p(data_mri_water, data_mri_fat, data_pet):
+
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    IDX_SLICE = GL_get_value("IDX_SLICE")
+
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 1))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 1))
+
+    GL_set_value("FA_NORM", np.amax(data_pet))
+
+    # input
+    img_p = data_pet[:, :, IDX_SLICE]
+    X[0, :, :, 0] = np.divide(img_p, np.amax(data_pet))
+    Y = X
+
+    # water/fat fraction
+    img_w = data_mri_water[:, :, IDX_SLICE]
+    img_f = data_mri_fat[:, :, IDX_SLICE]
+    img_sum = img_f + img_w + 1e-6
+
+    # mask
+    mask_pet = np.asarray([img_p > 350]).reshape((256, 256)).astype(int)
+    mask_sum = np.asarray([img_sum > 150]).reshape((256, 256)).astype(int)
+    mask = mask_pet * mask_sum
+    mask = sm.opening(mask, sm.disk(5))
+    mask = sm.closing(mask, sm.square(5))
+
+    # water/fat fraction
+    img_ff = np.divide(img_f, img_sum) * mask
+    img_wf = np.divide(img_w, img_sum) * mask
+    # img_ff[img_ff <= 0.8] = 0
+
+    GL_set_value("img_ff", img_ff)
+    GL_set_value("img_wf", img_wf)
+    GL_set_value("mask_pet", mask_pet)
+
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
+
+    return X, Y
+
+def data_pre_breast_m2p(data_mri_water, data_mri_fat, data_pet):
+
+    IMG_ROWS = GL_get_value("IMG_ROWS")
+    IMG_COLS = GL_get_value("IMG_COLS")
+    IDX_SLICE = GL_get_value("IDX_SLICE")
+
+    X = np.zeros((1, IMG_ROWS, IMG_COLS, 1))
+    Y = np.zeros((1, IMG_ROWS, IMG_COLS, 1))
+
+    GL_set_value("FA_NORM", np.amax(data_pet))
+
+    # input
+    img_p = data_pet[:, :, IDX_SLICE]
+    Y[0, :, :, 0] = np.divide(img_p, np.amax(data_pet))
+
+    # water/fat fraction
+    img_w = data_mri_water[:, :, IDX_SLICE]
+    img_f = data_mri_fat[:, :, IDX_SLICE]
+    img_sum = img_f + img_w + 1e-6
+
+    X[0, :, :, 0] = np.divide(img_sum, np.amax(img_sum))
+
+    # mask
+    mask_pet = np.asarray([img_p > 350]).reshape((256, 256)).astype(int)
+    mask_sum = np.asarray([img_sum > 150]).reshape((256, 256)).astype(int)
+    mask = mask_pet * mask_sum
+    mask = sm.opening(mask, sm.disk(5))
+    mask = sm.closing(mask, sm.square(5))
+
+    # water/fat fraction
+    img_ff = np.divide(img_f, img_sum) * mask
+    img_wf = np.divide(img_w, img_sum) * mask
+    # img_ff[img_ff <= 0.8] = 0
+
+    GL_set_value("img_ff", img_ff)
+    GL_set_value("img_wf", img_wf)
+    GL_set_value("mask_pet", mask_pet)
+
+    print("X shape:", X.shape)
+    print("Y shape:", Y.shape)
+
+    return X, Y
