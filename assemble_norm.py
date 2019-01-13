@@ -50,7 +50,6 @@ data = np.array(data)
 print(data.shape)
 
 
-
 nii_file = nib.Nifti1Image(data, affine, header)
 save_path = '.\\mid_results\\' + ID + "\\"
 nib.save(nii_file, save_path+'PVC_PET_norm.nii.gz')
